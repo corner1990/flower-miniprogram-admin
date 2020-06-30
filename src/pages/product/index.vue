@@ -1,0 +1,136 @@
+<template>
+  <div class="product">
+    <Search @search="search" />
+    <el-tabs
+      v-model="publish_type"
+      type="card"
+      @tab-click="handleClick"
+      class="product-tab"
+    >
+      <el-tab-pane
+        :label="tab.label"
+        :name="tab.key"
+        v-for="(tab, key) in tabList"
+        :key="key"
+      >
+        <router-link to="/release-product">
+          <el-button type="primary" >发布商品</el-button>
+        </router-link>
+        
+        <dataTable :list="list" :type="publish_type" />
+      </el-tab-pane>
+    </el-tabs>
+    <div class="pagination">
+      <el-pagination
+        background
+        layout="total, prev, pager, next"
+        :current-page="pageInfo.index"
+        :page-size="pageInfo.page_size"
+        :total="pageInfo.count"
+        @current-change="handlePageChange"
+      ></el-pagination>
+      </div>
+  </div>
+</template>
+
+<script>
+import Search from './product-compoent/search'
+import dataTable from './product-compoent/data-table'
+import { getProductList } from './api'
+export default {
+  name: 'product',
+  props: {
+    msg: String
+  },
+  components: {
+    Search,
+    dataTable
+  },
+  data() {
+    return {
+      publish_type: '0',
+      tabList: [
+        {
+          label: '全部',
+          key: '0',
+        },
+        {
+          label: '上架中',
+          key: '1',
+        },
+        {
+          label: '已下架',
+          key: '2'
+        }
+      ],
+       filterInfo: {
+      },
+      list: [],
+      pageInfo: {
+        count: 0,
+        page_size: 10,
+        index: 0
+      },
+      loading: false
+    }
+  },
+  methods: {
+    handleClick() {
+      this.loadInfo()
+    },
+    handlePageChange(index) {
+      this.loadInfo(index-1)
+    },
+    /**
+     * @des 搜索
+     */
+    search(filterInfo) {
+      this.pageInfo = {
+        index: 0,
+        page_size: 10
+      }
+      this.filterInfo = filterInfo
+      this.loadInfo()
+    },
+    /**
+     * @desc 加载数据
+     */
+    async loadInfo(index = 0) {
+      if (this.loading) return this.$message.success('数据加载中，请稍等');
+      this.list = []
+      this.loading = true
+      let { publish_type, pageInfo, filterInfo } = this
+      let { errorCode, data } = await getProductList({
+        ...pageInfo,
+        ...filterInfo,
+        publish_type,
+        index
+      })
+      if (errorCode === 0) {
+        this.list = data.product_item_list
+        this.pageInfo = data.pageInfo
+      }
+      this.loading = false
+    },
+  },
+  created() {
+    this.loadInfo()
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="less">
+.product{
+  .product-tab{
+    background: #fff;
+    margin-top: 16px;
+    padding: 15px;
+  }
+  .pagination{
+    background: #fff;
+    margin: 0;
+    padding: 20px 10px;
+  }
+}
+</style>

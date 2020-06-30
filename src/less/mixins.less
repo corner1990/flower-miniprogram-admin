@@ -1,0 +1,113 @@
+/* -------------------------- Commons -------------------------- */
+
+// Font
+.largeTitle(@size: @font-size-xxl; @weight: bold; @color: @font-color-body){
+  font-size: @size;
+  font-weight: @weight;
+  color: @color;
+}
+.title(@size: @font-size-xl; @weight: bold; @color: @font-color-body){
+  font-size: @size;
+  font-weight: @weight;
+  color: @color;
+}
+.subtitle(@size: @font-size-lg; @weight: bold; @color: @font-color-body){
+  font-size: @size;
+  font-weight: @weight;
+  color: @color;
+}
+.headline(@size: @font-size-md; @weight: bold; @color: @font-color-body){
+  font-size: @size;
+  font-weight: @weight;
+  color: @color;
+}
+.body(@size: @font-size-sm; @weight: normal; @color: @font-color-body){
+  font-size: @size;
+  font-weight: @weight;
+  color: @color;
+}
+.caption(@size: @font-size-xs; @weight: normal; @color: @font-color-caption){
+  font-size: @size;
+  font-weight: @weight;
+  color: @color;
+}
+
+// Element
+.card(@color: @white){
+  background: @color;
+  border-radius: @border-radius;
+}
+
+/* -------------------------- Helpers -------------------------- */
+
+// 居中
+.center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 主轴对齐
+.main-center(){
+  display: flex;
+  justify-content: center;
+}
+.main-start(){
+  display: flex;
+  justify-content: flex-start;
+}
+.main-end(){
+  display: flex;
+  justify-content: flex-end;
+}
+.main-between(){
+  display: flex;
+  justify-content: space-between;
+}
+
+// 交叉轴对齐
+.cross-center(){
+  display: flex;
+  align-items: center;
+}
+.cross-start(){
+  display: flex;
+  align-items: flex-start;
+}
+.cross-end(){
+  display: flex;
+  align-items: flex-end;
+}
+.cross-between(){
+  display: flex;
+  align-items: space-between;
+}
+
+// img object-fit
+.object-fit(@fit: cover){
+  width: 100%;
+  height: 100%;
+  object-fit: @fit;
+}
+
+// img object-fit in parent
+.fit(@fit: cover){
+  img {
+    .object-fit(@fit);
+  }
+}
+
+// width = height
+.size(@size){
+  width: @size;
+  height: @size;
+}
+
+// 绝对定位撑满
+.cover(){
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
