@@ -52,10 +52,10 @@ import Editor from './components/MaterialAds/Editor.vue'
 import Device from './components/MaterialAds/Device.vue'
 import PreviewContent from './components/MaterialAds/PreviewContent.vue'
 import SelectProduct from './components/MaterialAds/SelectProduct.vue'
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import { getUserList } from './api'
-import uploadDataURL from '../../utils/uploadDataURL'
-import { Loading } from 'element-ui'
+// import uploadDataURL from '../../utils/uploadDataURL'
+// import { Loading } from 'element-ui'
 
 export default {
   name: 'MaterialAdsPage',

@@ -37,12 +37,12 @@ service.interceptors.request.use(
     
     if (config.data) {
       // eslint-disable-next-line camelcase
-      config.data.device_id = 'admin'
+      config.data.platform = 'admin'
       config.data['user_id'] = $userId || 0
     }
     if (config.params) {
       // eslint-disable-next-line camelcase
-      config.params.device_id = 'admin'
+      config.params.platform = 'admin'
       config.params['user_id'] = $userId || 0
     }
     return config;

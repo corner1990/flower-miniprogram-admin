@@ -22,17 +22,17 @@
     <el-table :data="tableData" style="width: 100%" v-loading="loading">
       <!-- 标签名称 -->
       <el-table-column label="标签名称">
-        <template slot-scope="scope">中国好声音</template>
+        <template >中国好声音</template>
       </el-table-column>
 
       <!-- 对应IP -->
       <el-table-column label="对应IP">
-        <template slot-scope="scope">吴莫愁，大山，吴磊</template>
+        <template >吴莫愁，大山，吴磊</template>
       </el-table-column>
 
       <!-- 操作 -->
       <el-table-column label="操作">
-        <template slot-scope="scope">
+        <template >
           <el-link type="danger" size="mini" @click="handleClickDelete">删除</el-link>
         </template>
       </el-table-column>

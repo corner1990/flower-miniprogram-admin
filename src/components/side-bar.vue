@@ -55,68 +55,82 @@ export default {
         },
         {
           icon: 'el-icon-s-goods',
-          index: 'product',
-          title: '商品管理'
-        },
-        {
-          icon: 'el-icon-s-order',
-          index: '/orders/index',
-          title: '订单管理'
-        },
-        {
-          icon: 'el-icon-s-claim',
-          index: 'theater',
-          title: '剧场'
-        },
-        {
-          icon: 'el-icon-postcard',
-          title: '发布文字内容',
-          index: 'text'
-        },
-        {
-          icon: 'el-icon-picture',
-          title: '发布图片内容',
-          index: 'image'
-        },
-        {
-          icon: 'el-icon-video-camera-solid',
-          title: '发布短视频内容',
-          index: 'video'
-        },
-        {
-          icon: 'el-icon-s-opportunity',
-          title: '发布资讯',
-          index: 'ads'
-        },
-        {
-          icon: 'el-icon-s-check',
-          title: '内容审核',
-          index: 'review'
-        },
-        {
-          icon: 'el-icon-s-check',
-          title: '评论审核',
-          index: 'commentsReview'
-        },
-        {
-          icon: 'el-icon-upload',
-          title: '上传图片',
-          index: 'upload-img'
-        },
-        {
-          icon: 'el-icon-files',
-          title: 'IP列表',
-          index: 'ip'
-        },
-        {
-          icon: 'el-icon-price-tag',
-          title: 'IP标签',
-          index: 'iptag'
+          index: 'content',
+          title: '内容管理',
+          subs: [
+            {
+              icon: 'el-icon-s-goods',
+              index: 'product',
+              title: '商品管理'
+            },
+            {
+              icon: 'el-icon-s-order',
+              index: '/orders/index',
+              title: '订单管理'
+            },
+            {
+              icon: 'el-icon-s-claim',
+              index: 'theater',
+              title: '剧场'
+            },
+            {
+              icon: 'el-icon-postcard',
+              title: '发布文字内容',
+              index: 'text'
+            },
+            {
+              icon: 'el-icon-picture',
+              title: '发布图片内容',
+              index: 'image'
+            },
+            {
+              icon: 'el-icon-video-camera-solid',
+              title: '发布短视频内容',
+              index: 'video'
+            },
+            {
+              icon: 'el-icon-s-opportunity',
+              title: '发布资讯',
+              index: 'ads'
+            }
+          ]
         },
         {
           icon: 'el-icon-goods',
           title: '中奖列表',
-          index: 'reward'
+          index: 'rewardWrap',
+          subs: [
+            {
+              icon: 'el-icon-s-check',
+              title: '内容审核',
+              index: 'review'
+            },
+            {
+              icon: 'el-icon-s-check',
+              title: '评论审核',
+              index: 'commentsReview'
+            },
+            {
+              icon: 'el-icon-upload',
+              title: '上传图片',
+              index: 'upload-img'
+            },
+            {
+              icon: 'el-icon-files',
+              title: 'IP列表',
+              index: 'ip'
+            },
+            {
+              icon: 'el-icon-price-tag',
+              title: 'IP标签',
+              index: 'iptag'
+            },
+            {
+              icon: 'el-icon-goods',
+              title: '中奖列表',
+              index: 'reward'
+            }
+          ]
         },
         // {
         //     icon: 'el-icon-video-camera-solid',

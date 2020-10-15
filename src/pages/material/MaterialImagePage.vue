@@ -114,15 +114,15 @@
 
 <script>
 import Block from './components/MaterialAds/Block.vue'
-import { Box } from 'vue-raw-ui'
-import { createStarMaterielFeed, uploadOssFile, uploadOssFileURL, getStarIpList, getProductList, getSuperProductList } from './api'
+// import { Box } from 'vue-raw-ui'
+import { createStarMaterielFeed, uploadOssFileURL, getStarIpList, getSuperProductList } from './api'
 import FormItem from './components/FormItem.vue'
 
 export default {
   name: 'MaterialImagePage',
   components: {
     Block,
-    Box,
+    // Box,
     FormItem
   },
   data() {

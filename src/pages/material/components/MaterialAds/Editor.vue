@@ -15,9 +15,9 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
-import { q } from 'vue-quill-editor'
+// import { q } from 'vue-quill-editor'
 import { quillEditor } from 'vue-quill-editor'
-import { mapState, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 
 // 编辑器配置
 const editorOption = {

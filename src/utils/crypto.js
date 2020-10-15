@@ -10,7 +10,7 @@ export default {
     let key = CryptoJS.enc.Utf8.parse(CRYPTOJSKEY)
     let encryptedData = CryptoJS.AES.encrypt(plaintText, key, options)
     let encryptedBase64Str = encryptedData.toString().replace(/\//g, '_')
-    encryptedBase64Str = encryptedBase64Str.replace(/\+/g, '-')
+    encryptedBase64Str = encryptedBase64Str.replace(/\+/g, '+')
     return encryptedBase64Str
   },
   //解密

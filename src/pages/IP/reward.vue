@@ -171,7 +171,7 @@ export default {
       }
     },
     // 翻页
-    handlePageChange(currentPage) {
+    handlePageChange() {
       this.fetchData()
     },
     // 点击上传快递单号
@@ -181,7 +181,7 @@ export default {
     },
     // 加载快递公司
     async loadCompany() {
-      const {errorCode, data} = await getExpessList()
+      const {data} = await getExpessList()
       this.form.expressComponayList = Object.keys(data).map(item=>({
         key: item,
         name: data[item]
@@ -199,7 +199,7 @@ export default {
       const express_company = this.form.selectedCompany
       const express_num = this.form.expressNum
 
-      const {errorCode, data} = await deliverAward({
+      const {errorCode} = await deliverAward({
         user_award_id,
         express_company,
         express_num

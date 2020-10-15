@@ -149,7 +149,7 @@
 import { getStarIpList, createStarMaterielFeed, uploadOssFileURL, getSuperProductList, auditMedia } from '../material/api'
 import Block from './components/MaterialAds/Block'
 import FormItem from './components/FormItem.vue'
-import path from 'path-browserify'
+// import path from 'path-browserify'
 import upload from '../../utils/upload'
 
 export default {
@@ -179,16 +179,16 @@ export default {
     }
   },
   methods: {
-    handleVideoSuccess(file, fileList) {
+    handleVideoSuccess(file) {
       this.form.video = file
     },
-    handleVideoRemove(file, fileList) {
+    handleVideoRemove(file) {
       this.form.video = file
     },
-    handleCoverSuccess(file, fileList) {
+    handleCoverSuccess(file) {
       this.form.cover = file
     },
-    handleCoverRemove(file, fileList) {
+    handleCoverRemove(file) {
       this.form.cover = file
     },
     handleVideoChange(file) {
@@ -242,10 +242,10 @@ export default {
         const is_fake = this.form.isFake
 
         this.loading = true
-        const { errorCode, data } = await auditMedia({ file_name, file_size, title: 'Super Video' })
+        const { errorCode } = await auditMedia({ file_name, file_size, title: 'Super Video' })
         if (errorCode !== 0) return
         if (errorCode === 0) {
-          const { errorCode, data } = await createStarMaterielFeed({ star_id, content, sku_id, video_id, is_fake })
+          const { errorCode } = await createStarMaterielFeed({ star_id, content, sku_id, video_id, is_fake })
           this.loading = false
           if (errorCode === 0) {
             this.$message.success('发布成功')

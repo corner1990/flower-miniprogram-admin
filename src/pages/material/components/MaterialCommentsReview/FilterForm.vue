@@ -46,15 +46,15 @@
 </template>
 
 <script>
-import FormItem from '../FormItem.vue'
-import { Box } from 'vue-raw-ui'
+// import FormItem from '../FormItem.vue'
+// import { Box } from 'vue-raw-ui'
 import Headline from '../MaterialAds/Headline.vue'
 
 export default {
   name: 'FilterForm',
   components: {
-    FormItem,
-    Box,
+    // FormItem,
+    // Box,
     Headline
   },
   data() {
