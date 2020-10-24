@@ -6,7 +6,7 @@
             <i v-if="!collapse" class="el-icon-s-fold collapse-icon"></i>
             <i v-else class="el-icon-s-unfold collapse-icon"></i>
         </div>
-        <div class="header-logo">享花 - 后台管理系统</div>
+        <div class="header-logo">AS Flower Boutique - 管理系统</div>
     </div>
     <div class="header-right">
       <div class="header-user-con">

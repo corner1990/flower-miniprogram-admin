@@ -11,32 +11,32 @@
     >
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <!-- <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column> -->
-        <el-table-column prop="name" label="商品名称">
+        <el-table-column prop="name" label="商品名称" width="240" >
           <template slot-scope="scope">
-
-              <el-row>
-                <el-col :span="12">
-                  <el-image
-                      class="table-td-thumb"
-                      :src="scope.row.product_sku_info[0] && scope.row.product_sku_info[0].main_pic || ''"
-                      :preview-src-list="[scope.row.product_sku_info[0] && scope.row.product_sku_info[0].main_pic]"
-                  ></el-image>
-                </el-col>
-                <el-col :span="12">
-                  {{ scope.row.product_sku_info[0] && scope.row.product_sku_info[0].product_name || '' }}
-                </el-col>
-              </el-row>
+              <div class="flex">
+                <el-image
+                    class="table-td-thumb"
+                    :src="scope.row.base_info && scope.row.base_info.main_image || ''"
+                    :preview-src-list="[scope.row.base_info && scope.row.base_info.main_image]"
+                ></el-image>
+              <p class="product-name"> {{ scope.row.base_info && scope.row.base_info.product_name || '' }}</p>
+              </div>
             </template>
         </el-table-column>
-        <el-table-column label="价格">
-            <template slot-scope="scope">￥{{scope.row | formatPrice}}</template>
+        <el-table-column label="鲜花类型">
+            <template slot-scope="scope">{{scope.row.base_info.product_type === 1 ? '包月鲜花花' : '礼品鲜花'}}</template>
         </el-table-column>
-        <el-table-column prop="stock" label="库存"></el-table-column>
+        <el-table-column label="价格">
+            <template slot-scope="scope">￥{{scope.row.base_info.format_sale_price}}</template>
+        </el-table-column>
+        <el-table-column label="库存">
+          <template slot-scope="scope">{{scope.row.base_info.stock}}</template>
+        </el-table-column>
         <el-table-column label="销量" align="center">
             <template slot-scope="scope">
                 <el-tag
                   type="success"
-                >{{scope.row.sale}}</el-tag>
+                >{{scope.row.base_info.sale}}</el-tag>
             </template>
         </el-table-column>
 
@@ -44,12 +44,12 @@
           <template slot-scope="scope">
                 <el-tag
                   type="info"
-                >{{scope.row.created_timestamp | dateFormat}}</el-tag>
+                >{{scope.row.base_info.created_timestamp | dateFormat}}</el-tag>
             </template>
         </el-table-column>
         <el-table-column label="状态" align="center">
             <template slot-scope="scope">
-                <p>{{scope.row.published_status === 1 ? '上架' : '下架'}}</p>
+                <p>{{scope.row.base_info.published_status === 1 ? '上架' : '下架'}}</p>
             </template>
         </el-table-column>
         <el-table-column label="操作" width="180" align="center">
@@ -232,5 +232,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.data-table{}
+.data-table{
+  .product-name{
+    margin-left: 10px;
+  }
+}
 </style>
