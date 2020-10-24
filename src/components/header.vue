@@ -81,6 +81,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+@import url('../less/main.less');
 .main-header{
   justify-content: space-between;
   align-items: center;
@@ -90,7 +91,7 @@ export default {
   height: 70px;
   font-size: 22px;
   color: #fff;
-  background-color: #242f42;
+  background-color: @color-brand;
   
   .collapse-btn{
    transform: translateY(4px);
@@ -98,6 +99,10 @@ export default {
    width: 70px;
    line-height: 60px;
    cursor: pointer;
+   text-align: center;
+   &:hover{
+     background-color: @color-brand-dark;
+   }
   }
   .header-right {
     float: right;

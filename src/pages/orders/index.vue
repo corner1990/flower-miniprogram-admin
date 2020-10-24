@@ -162,13 +162,14 @@ export default {
 .orders{
   .title{
     background: #fff;
-    padding: 15px;
+    padding: 10px 15px;
     border-bottom: 1px solid #eee
   }
   .content{
     &{
       margin-top: 16px;
       background: #fff;
+      overflow: inherit;
     }
   }
 }

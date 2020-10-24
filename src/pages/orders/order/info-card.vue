@@ -35,17 +35,13 @@
       <!-- <el-button type="text">备注</el-button> -->
     </div>
     <div class="orders-info-content flex">
-      <div class="flex" style="width: 300px;">
+      <div class="flex" style="min-width: 300px;">
         <img class="img" :src="info.order_product_info.product_main_pic" alt="" srcset="">
-        <div class="box">
+        <div class="box" style="margin-left: 10px;">
           <p>{{info.order_product_info.product_name}}</p>
           <p>规格：{{ spec }}</p>
         </div>
       </div>
-      <!-- <div class="box">
-        <p>{{info.order_product_info.sku_price}}</p>
-        <p>{{info.order_product_info.count}}件</p>
-      </div> -->
       <div class="box receiver">
         <!-- <p>{{info.order_user_info.nick_name}}</p> -->
         <p>{{info.order_base_info.receiver}} {{info.order_base_info.phone}}</p>
@@ -234,11 +230,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+@import url('../../../less/main.less');
 .orders-info-header{
   justify-content: space-between;
-  background: #313d51 ;
-  border-bottom: 1px solid #EBEEF5;
-  padding: 2px 10px;
+  background: @color-brand ;
+  border-bottom: 1px solid @color-brand;
+  height: 36px;
+  padding: 0 20px;
   color: #fff;
   .box-left{
     font-size: 14px;
@@ -250,7 +248,8 @@ export default {
   }
 }
 .orders-info-card{
-  border: 1px solid #EBEEF5;
+  // border: 1px solid @color-brand;
+  margin-bottom: 10px;
   .flex{
     display: flex;
   }

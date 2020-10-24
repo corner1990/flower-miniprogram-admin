@@ -1,6 +1,9 @@
 <template>
   <div class="product">
     <Search @search="search" />
+    <router-link to="/release-product" class="release-btn">
+      <el-button type="primary" >发布商品</el-button>
+    </router-link>
     <el-tabs
       v-model="publish_type"
       type="card"
@@ -13,9 +16,6 @@
         v-for="(tab, key) in tabList"
         :key="key"
       >
-        <router-link to="/release-product">
-          <el-button type="primary" >发布商品</el-button>
-        </router-link>
         
         <dataTable :list="list" :type="publish_type" />
       </el-tab-pane>
@@ -122,10 +122,22 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .product{
+  position: relative;
   .product-tab{
     background: #fff;
     margin-top: 16px;
     padding: 15px;
+    
+  }
+  .release-btn{
+    
+    position: absolute;
+    left: 270px;
+    top: 125px;
+    z-index: 2;
+    .el-button{
+      padding: 10px 20px;
+    }
   }
   .pagination{
     background: #fff;

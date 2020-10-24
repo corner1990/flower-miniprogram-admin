@@ -77,9 +77,9 @@ export default {
       },
       // 保存编辑
       saveEdit() {
-          this.editVisible = false;
-          this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-          this.$set(this.tableData, this.idx, this.form);
+        this.editVisible = false;
+        this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+        this.$set(this.tableData, this.idx, this.form);
       }
   },
   components: {
@@ -96,7 +96,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.data-table{}
+.data-table{
+  max-height: calc(100vh - 460px);
+  overflow: auto;
+}
 </style>
 <style>
 .el-table__expanded-cell[class*=cell]{

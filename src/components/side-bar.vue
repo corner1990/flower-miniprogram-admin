@@ -4,9 +4,9 @@
       class="sidebar-el-menu"
       :default-active="onRoutes"
       :collapse="collapse"
-      background-color="#324157"
-      text-color="#bfcbd9"
-      active-text-color="#20a0ff"
+      background-color="#f8f8f8"
+      text-color="#666"
+      active-text-color="#40c9b3"
       unique-opened
       router
     >
@@ -60,7 +60,7 @@ export default {
           subs: [
             {
               icon: 'el-icon-s-goods',
-              index: 'product',
+              index: '/product',
               title: '商品管理'
             },
             {
@@ -94,134 +94,7 @@ export default {
               index: 'ads'
             }
           ]
-        },
-        {
-          icon: 'el-icon-goods',
-          title: '中奖列表',
-          index: 'rewardWrap',
-          subs: [
-            {
-              icon: 'el-icon-s-check',
-              title: '内容审核',
-              index: 'review'
-            },
-            {
-              icon: 'el-icon-s-check',
-              title: '评论审核',
-              index: 'commentsReview'
-            },
-            {
-              icon: 'el-icon-upload',
-              title: '上传图片',
-              index: 'upload-img'
-            },
-            {
-              icon: 'el-icon-files',
-              title: 'IP列表',
-              index: 'ip'
-            },
-            {
-              icon: 'el-icon-price-tag',
-              title: 'IP标签',
-              index: 'iptag'
-            },
-            {
-              icon: 'el-icon-goods',
-              title: '中奖列表',
-              index: 'reward'
-            }
-          ]
-        },
-        // {
-        //     icon: 'el-icon-video-camera-solid',
-        //     title: '内容',
-        //     index: 'material',
-        //     subs: [
-        //         {
-        //             title: '图片',
-        //             index: 'material/image'
-        //         }
-        //     ]
-        // },
-        // {
-        //     icon: 'el-icon-lx-copy',
-        //     index: 'tabs',
-        //     title: 'tab选项卡'
-        // },
-        // {
-        //     icon: 'el-icon-lx-calendar',
-        //     index: '3',
-        //     title: '表单相关',
-        //     subs: [
-        //         {
-        //             index: 'form',
-        //             title: '基本表单'
-        //         },
-        //         {
-        //             index: '3-2',
-        //             title: '三级菜单',
-        //             subs: [
-        //                 {
-        //                     index: 'editor',
-        //                     title: '富文本编辑器'
-        //                 },
-        //                 {
-        //                     index: 'markdown',
-        //                     title: 'markdown编辑器'
-        //                 }
-        //             ]
-        //         },
-        //         {
-        //             index: 'upload',
-        //             title: '文件上传'
-        //         }
-        //     ]
-        // },
-        // {
-        //     icon: 'el-icon-lx-emoji',
-        //     index: 'icon',
-        //     title: '自定义图标'
-        // },
-        // {
-        //     icon: 'el-icon-pie-chart',
-        //     index: 'charts',
-        //     title: 'schart图表'
-        // },
-        // {
-        //     icon: 'el-icon-rank',
-        //     index: '6',
-        //     title: '拖拽组件',
-        //     subs: [
-        //         {
-        //             index: 'drag',
-        //             title: '拖拽列表'
-        //         },
-        //         {
-        //             index: 'dialog',
-        //             title: '拖拽弹框'
-        //         }
-        //     ]
-        // },
-        // {
-        //     icon: 'el-icon-lx-global',
-        //     index: 'i18n',
-        //     title: '国际化功能'
-        // },
-        // {
-        //     icon: 'el-icon-lx-warn',
-        //     index: '7',
-        //     title: '错误处理',
-        //     subs: [
-        //         {
-        //             index: 'permission',
-        //             title: '权限测试'
-        //         },
-        //         {
-        //             index: '404',
-        //             title: '404页面'
-        //         }
-        //     ]
-        // }
+        }
       ]
     }
   },

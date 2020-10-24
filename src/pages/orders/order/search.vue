@@ -1,22 +1,10 @@
 <template>
-  <div class="product-search">
+  <div class="orders-search">
     <el-form :inline="true" :model="info" class="demo-form-inline">
       <el-form-item label="订单号">
         <el-input v-model="info.order_sn" placeholder="订单号"></el-input>
       </el-form-item>
-      <!-- <el-form-item label="订单状态" class="search_condition">
-        <el-select v-model="info.order_status" placeholder="订单状态">
-          <el-option label="全部" value=""></el-option>
-          <el-option label="待付款" value="10"></el-option>
-          <el-option label="已付款" value="20"></el-option>
-          <el-option label="待发货" value="30"></el-option>
-          <el-option label="待收货" value="40"></el-option>
-          <el-option label="交易完成" value="50"></el-option>
-          <el-option label="交易关闭" value="60"></el-option>
-          <el-option label="待评价" value="70"></el-option>
-          <el-option label="已评价" value="80"></el-option>
-        </el-select>
-      </el-form-item> -->
+      
       <el-form-item label="付款方式" class="search_condition">
         <el-select v-model="info.pay_type" placeholder="付款方式">
           <el-option label="全部" value=""></el-option>
@@ -24,12 +12,6 @@
           <el-option label="微信" value="2"></el-option>
         </el-select>
       </el-form-item>
-<!--      <el-form-item label="商品名称" >-->
-<!--        <el-input placeholder="请输入内容" v-model="info.product_name">-->
-<!--          <template slot="prepend">&yen;</template>-->
-<!--        </el-input>-->
-<!--      </el-form-item>-->
-     
       <el-form-item label="下单时间">
          <el-date-picker
           v-model="info.time"
@@ -123,18 +105,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.product-search{
+.orders-search{
   &{
     background: #fff;
-    padding: 15px;
+    padding: 10px 15px;
   }
   .price-wrap{
     display: flex;
   }
+  .el-form-item{
+    margin-bottom: 10px;
+  }
 }
 
-  .search_condition{
-    margin-left: 72px;
-
-  }
+.search_condition{
+  margin-left: 72px;
+}
 </style>
