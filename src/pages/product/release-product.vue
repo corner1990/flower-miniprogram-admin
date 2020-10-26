@@ -2,7 +2,41 @@
   <div class="repease-product">
     <h2 class="title">{{ title }}</h2>
     <BaseInfo @update="update" :editInfo="editInfo" />
-    <PriceWarehouse @update="update" :editInfo="editInfo" />
+    <!-- <PriceWarehouse @update="update" :editInfo="editInfo" /> -->
+    
+    <el-form
+      :label-position="labelPosition"
+      label-width="100px"
+      ref="specialForm"
+      class="specil-form"
+      :model="info"
+      :rules="rules"
+    >
+      <el-form-item label="规格明细">
+        <!-- <p class="tip-text">待商品规格保存后可设置规格明细</p> -->
+        <SpecDetail :list="specifications" @update="update" />
+      </el-form-item>
+      <el-form-item label="品牌故事" prop="brand_story">
+        <el-input class="medium" v-model="info.brand_story">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="养护说明" prop="care_instructions">
+        <el-input class="medium" v-model="info.care_instructions">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="物流说明" prop="logistics_desc">
+        <el-input class="medium" v-model="info.logistics_desc">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="特别说明" prop="special_note">
+        <el-input class="medium" v-model="info.special_note">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="售后说明" prop="after_sale_instructions">
+        <el-input class="medium" v-model="info.after_sale_instructions">
+        </el-input>
+      </el-form-item>
+    </el-form>
     <ProductDetailEdit @update="update" :editInfo="editInfo" />
     <div class="btn-wrap">
       <el-button type="primary" @click="vertify">保存并预览</el-button>
@@ -12,7 +46,8 @@
 
 <script>
 import BaseInfo from './release-product/base-info'
-import PriceWarehouse from './release-product/price-warehose'
+// import PriceWarehouse from './release-product/price-warehose'
+import SpecDetail from './release-product/spec-detail'
 import ProductDetailEdit from './release-product/product-detail-edit'
 import { createProduct, getProductDetail, updateProductSkuInfo  } from './api'
 
@@ -21,16 +56,20 @@ export default {
   props: {},
   components: {
     BaseInfo,
-    PriceWarehouse,
+    SpecDetail,
     ProductDetailEdit
   },
   data() {
     return {
-      baseInfo: {},
-      priceInfo: {},
-      productDetail: {},
+      labelPosition: 'right',
+      baseInfo: {
+        main_image: []
+      },
+      specifications: [],
+      description: [],
       baseForm: null,
-      editInfo: null
+      editInfo: null,
+      info: {}
     }
   },
   computed: {
@@ -42,6 +81,25 @@ export default {
      */
     isEdit() {
       return /edit-product/.test(this.$route.path)
+    },
+    rules() {
+      return {
+        brand_story: [
+          { required: true, message: '请输入品牌故事', trigger: 'blur' }
+        ],
+        care_instructions: [
+          { required: true, message: '请输入养护说明', trigger: 'blur' }
+        ],
+        logistics_desc: [
+          { required: true, message: '请输入物流说明', trigger: 'blur' }
+        ],
+        special_note: [
+          { required: true, message: '请输入特别说明', trigger: 'blur' }
+        ],
+        after_sale_instructions: [
+          { required: true, message: '请输入售后说明', trigger: 'blur' }
+        ],
+      }
     }
   },
   watch: {
@@ -51,7 +109,6 @@ export default {
   },
   mounted() {
     window.sessionStorage.removeItem('$eitdInfo')
-    console.log('release-product')
     
     if (this.isEdit) {
       this.loadInfo()
@@ -63,6 +120,23 @@ export default {
       this[key] = val
     },
     vertify() {
+      // this.vertifySpecialForm()
+      // return false
+      this.baseForm.validate(valid => {
+        if (valid) {
+          // this.submit()
+          this.vertifySpecialForm()
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+      })
+    },
+    /**
+     * @desc 验证信息
+     */
+    vertifySpecialForm() {
+      
       this.baseForm.validate(valid => {
         if (valid) {
           this.submit()
@@ -76,31 +150,33 @@ export default {
      * @desc 提交
      */
     submit() {
-      let { baseInfo, priceInfo, productDetail } = this
-      let main_pic =  baseInfo.main_pic&&baseInfo.main_pic[0] ? this.getImgSrc(baseInfo.main_pic)[0].image : ''
-      let background_pic =  baseInfo.background_pic&&baseInfo.background_pic[0] ? this.getImgSrc(baseInfo.background_pic)[0].image : ''
+      let { baseInfo, specifications, description } = this
+      let main_image =  baseInfo.main_image.length > 0 ? this.getImgSrc(baseInfo.main_image)[0].content : ''
+      specifications = specifications.reduce((prev, next) => {
+        let { key, val } = next
+        prev.push({[key]: val})
+        return prev
+      }, [])
+
       let params = {
         ...this.baseInfo,
-        ...priceInfo,
-        main_pic,
-        bar_code: parseInt(baseInfo.bar_code),
-        gallery_image: this.getImgSrc(baseInfo.gallery_image),
-        background_pic,
-        detail_image: this.getImgSrc(productDetail) || [],
+        main_image,
+        specifications: JSON.stringify(specifications),
+        description: this.getImgSrc(description) || [],
 
       }
-      if (priceInfo.type === '多规格') {
-        params.specifications = this.initSpecs()
-        
-        params.stock = params.specifications.reduce((prev, next) => { return prev + (next.stock - 0) }, 0)
-      }
+      
       if (this.isEdit) { // 调用编辑接口
         
         this.updateProductInfo(params)
         return false
       }
       this.createProductInfo(params)
+      
     },
+    /**
+     * @desc 编辑
+     */
     async updateProductInfo(params) {
       let infoStr = window.sessionStorage.getItem('$editInfo')
       let { product_item_info } = JSON.parse(infoStr)
@@ -111,6 +187,9 @@ export default {
         this.$router.go(-1)
       }
     },
+    /**
+     * @desc 创建
+     */
     async createProductInfo(params) {
       let { errorCode } = await createProduct(params)
       if (errorCode === 0) {
@@ -152,12 +231,12 @@ export default {
       return fileList.map((item, id) => {
         let img = {
           id,
-          description: 'description'
+          type: 'image',
         }
         if (item.response) {
-          img.image = item.response.requestUrls[0]
+          img.content = item.response.requestUrls[0]
         } else {
-          img.image = item.url
+          img.content = item.url
         }
         
         return img
@@ -180,17 +259,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+@import url('../../less/main.less');
 .repease-product{
+  &{
+    height: calc(100vh - 100px);
+    overflow: auto;
+  }
   .title{
-    background: #fff;
+    background: @white;
     padding: 15px;
+  }
+  .specil-form{
+    background-color: @white;
+    padding: 10px 0;
   }
   .btn-wrap{
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 200px;
-    background: #fff;
+    background: @white;
   }
 }
 </style>

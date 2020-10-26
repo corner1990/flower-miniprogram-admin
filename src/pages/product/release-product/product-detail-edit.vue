@@ -80,7 +80,7 @@ export default {
     },
     handleChange(file, fileList) {
       this.fileList = fileList;
-      this.$emit('update', 'productDetail', fileList)
+      this.$emit('update', 'description', fileList)
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;

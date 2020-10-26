@@ -7,63 +7,17 @@
       class="base-form"
       :model="info"
     >
-      <!-- <el-form-item label="选择规格">
-        <el-radio-group v-model="info.type" size="medium">
-           <el-radio-button label="单规格"></el-radio-button>
-            <el-radio-button label="多规格"></el-radio-button>
-        </el-radio-group>
-      </el-form-item> -->
      
-      <template  v-if="info.type !== '单规格'">
-        <el-form-item label="商品规格">
-          
-          <div class="spec-wrap" v-if="specList.length">
-            <p class="spec-item"
-              v-for="(spec, key) in specList"
-              :key="key"
-            >
-              {{ spec.name }}: {{ Object.values(spec.attr).join(';') }}
-            </p>
-            <el-button type="text" @click="() => dialogFormVisible = true">修改</el-button>
-          </div>
-          <el-button
-            @click="() => dialogFormVisible = true"
-            v-else
-          >添加规格</el-button>
-        </el-form-item>
-        <el-form-item label="规格明细">
-          <!-- <p class="tip-text">待商品规格保存后可设置规格明细</p> -->
-          <SpecDetail :list="specList" @update="update" :skuInfo="skuInfo" />
-        </el-form-item>
-      </template>
-      <template v-else>
-        <el-form-item label="价格">
-          <el-input class="medium" v-model="info.current_price">
-            <template slot="prepend">&yen;</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="划线价">
-          <el-input class="medium " v-model="info.former_price">
-            <template slot="prepend">&yen;</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="库存">
-          <el-input class="medium " v-model="info.stock"></el-input>
-        </el-form-item>
-      </template>
+      <el-form-item label="规格明细">
+        <!-- <p class="tip-text">待商品规格保存后可设置规格明细</p> -->
+        <SpecDetail :list="specList" @update="update" :skuInfo="skuInfo" />
+      </el-form-item>
     </el-form>
-    <el-dialog
-      title="添加商品规格" 
-      :visible.sync="dialogFormVisible"
-      top="25vh"
-    >
-      <AddSpec @update="update" :specs="specList" />
-    </el-dialog>
+    
   </div>
 </template>
 
 <script>
-import AddSpec from './add-spec'
 import SpecDetail from './spec-detail'
 export default {
   name: 'base-info',
@@ -71,7 +25,6 @@ export default {
     editInfo: Object
   },
   components: {
-    AddSpec,
     SpecDetail
   },
   data() {
@@ -80,8 +33,6 @@ export default {
       info: {
         type: '多规格', 
         stock: '',
-        former_price: '',
-        current_price: ''
       },
       dialogImageUrl: '',
       dialogVisible: false,
@@ -118,12 +69,7 @@ export default {
      * @desc 更新父组件数据
      */
     updateParentInfo() {
-      this.$emit('update', 'priceInfo', { 
-          ...this.info,
-          sepcsData: this.sepcsData,
-          specList: this.specList,
-          item_id: this.item_id
-        })
+      this.$emit('update', 'specifications', this.specList)
     },
     /**
      * @desc 编辑时初始化数据
@@ -179,6 +125,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+@import url('../../../less/main.less');
 .base-info{
   &{
     background: #fff;
@@ -195,7 +142,7 @@ export default {
       display: inline-block;
       height: 16px;
       width: 4px;
-      background: blue;
+      background: @color-brand;
       vertical-align: middle;
       margin-top: -4px;
       margin: 10px;

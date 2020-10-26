@@ -4,9 +4,9 @@ export const getProductList = params => request.post('/api/admin/ProductAdmin/ge
 // 获取商品详情
 export const getProductDetail = params => request.post('/api/admin/ProductAdmin/getProductItemDetail', params)
 // 创建商品
-export const createProduct = params => request.post('/api/admin/productAdmin/createProductSkuDetail', params)
+export const createProduct = params => request.post('/api/admin/productAdmin/createProductItem', params)
 // 批量上/下架商品
-export const operateProduct = params => request.post('/api/admin/ProductAdmin/operateProductItem', params)
+export const operateProduct = params => request.post('/api/admin/productAdmin/updateProductPublishStatus', params)
 // 删除商品item
 export const deleteProduct = params => request.post('/api/admin/ProductAdmin/deleteProductItem', params) //弃用 改用operateProduct
 // 创建商品item

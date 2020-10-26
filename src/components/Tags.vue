@@ -92,7 +92,7 @@ export default {
   },
   watch: {
     $route(newValue) {
-      console.log("newValue", newValue);
+      // console.log("newValue", newValue);
       this.setTags(newValue);
     }
   },
