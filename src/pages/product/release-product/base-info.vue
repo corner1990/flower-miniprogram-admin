@@ -231,26 +231,16 @@ export default {
     initInfo() {
       let infoStr = window.sessionStorage.getItem('$editInfo')
 
-      let { product_sku_info, product_item_info } = JSON.parse(infoStr)
-      let data = product_sku_info[0]
-      let { info } = this
-      let keys = Object.keys(info)
-      keys.map(key => {
-
-        info[key] = data[key]
-        if (['main_image', 'background_pic'].includes(key)) {
-          info[key] = [{url: data[key], name: key, uid: data[key]} ]
-
-        }
-        
-        if (key === 'description') {
-          info[key]  = JSON.parse(data[key]).title
-        }
-        if (key === 'shipping_price') {
-          info[key] = product_item_info.shipping_price
-        }
-      })
-      this.$emit('update', 'baseInfo', info)
+      let {
+        base_info
+      } = JSON.parse(infoStr)
+      let main_image = base_info.main_image ? [{url: base_info.main_image}] : []
+      this.info = {
+        ...base_info,
+        main_image,
+        current_price: base_info.sale_price
+      }
+      this.$emit('update', 'baseInfo', base_info)
     },
 
     checkForm() {

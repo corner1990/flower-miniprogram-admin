@@ -49,13 +49,13 @@ export default {
     }
   },
   watch: {
-    list: {
-      deep: true,
-      handler(list ) {
-        // console.log('list', list)
-        this.initData(list)
-      }
-    },
+    // list: {
+    //   deep: true,
+    //   handler(list ) {
+    //     // console.log('list', list)
+    //     this.initData(list)
+    //   }
+    // },
    
     tableData: {
       deep: true,

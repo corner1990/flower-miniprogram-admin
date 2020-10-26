@@ -2,6 +2,7 @@ import request from '@/utils/request'
 // 商品列表
 export const getProductList = params => request.post('/api/admin/ProductAdmin/getProductItemList', params)
 // 获取商品详情
+// export const getProductDetail = params => request.post('/api/admin/ProductAdmin/getProductItemDetail', params)
 export const getProductDetail = params => request.post('/api/admin/ProductAdmin/getProductItemDetail', params)
 // 创建商品
 export const createProduct = params => request.post('/api/admin/productAdmin/createProductItem', params)
@@ -14,7 +15,7 @@ export const createProductItem = params => request.post('/api/admin/ProductAdmin
 // 获取品牌列表
 export const getProductBrandList = params => request.post('/api/admin/ProductAdmin/getProductBrandList', params)
 // 编辑商品item
-export const updateProductSkuInfo = params => request.post('/api/admin/ProductAdmin/updateProductSkuInfo', params)
+export const updateProductSkuInfo = params => request.post('/api/admin/productAdmin/updateProductItem', params)
 // 获取品牌列表
 export const getProductCategoryList = params => request.post('/api/admin/ProductAdmin/getProductCategoryList', params)
 export const getOssSign =  () => request.get('/api/system/aliyun/getOssSign')

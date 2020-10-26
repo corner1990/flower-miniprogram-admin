@@ -150,10 +150,10 @@ export default {
      */
     initInfo() {
       let infoStr = window.sessionStorage.getItem('$editInfo')
-      let arr = JSON.parse(infoStr).product_sku_info[0].detail_image
-      arr = JSON.parse(arr)
-      this.fileList = arr.map(item => {
-        return {...item, url: item.image}
+      let { description = [] } = JSON.parse(infoStr)
+      
+      this.fileList = description.map(item => {
+        return {...item, url: item.content}
       })
       this.$emit('update', 'productDetail', this.fileList)
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="product">
-    <Search @search="search" />
+    <!-- <Search @search="search" /> -->
     <router-link to="/release-product" class="release-btn">
       <el-button type="primary" >发布商品</el-button>
     </router-link>
@@ -44,7 +44,7 @@
 
 <script>
 // import { mapState, mapMutations } from 'vuex'
-import Search from './product-compoent/search'
+// import Search from './product-compoent/search'
 import dataTable from './product-compoent/data-table'
 import MobileProductDetail from '../../components/product-detail'
 import { getProductList } from './api'
@@ -54,7 +54,7 @@ export default {
     msg: String
   },
   components: {
-    Search,
+    // Search,
     dataTable,
     MobileProductDetail
   },
@@ -142,6 +142,7 @@ export default {
 <style scoped lang="less">
 .product{
   position: relative;
+  background: #fff;
   .product-tab{
     background: #fff;
     margin-top: 16px;
@@ -149,13 +150,14 @@ export default {
     
   }
   .release-btn{
-    
-    position: absolute;
-    left: 270px;
-    top: 125px;
-    z-index: 2;
+    padding: 12px;
+    // position: absolute;
+    // left: 270px;
+    // top: 125px;
+    // z-index: 2;
     .el-button{
       padding: 10px 20px;
+      margin: 12px 0;
     }
   }
   .table-wrap{

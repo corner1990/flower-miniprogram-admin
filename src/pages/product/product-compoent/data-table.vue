@@ -141,6 +141,7 @@ export default {
       setStore: 'update'
     }),
     showDetail(info) {
+      console.log('info', info)
       this.setStore({key: 'info', val: info})
       this.$emit('update', 'showDetail', true)
     },
@@ -187,8 +188,11 @@ export default {
     // 编辑操作
     handleEdit(index, row) {
       window.sessionStorage.setItem('refersh', '1')
-      this.$router.push({ path: '/edit-product', query: { item_id: row.product_sku_info[0].item_id } })
+      this.$router.push({ path: '/edit-product', query: { item_id: row.base_info.item_id } })
     },
+    /**
+     * @des 上下架
+     */
     async operation(index, row) {
       // let item_array = [row.base_info.item_id]
       let { base_info } = row

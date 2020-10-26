@@ -150,7 +150,7 @@ export default {
      * @desc 提交
      */
     submit() {
-      let { baseInfo, specifications, description } = this
+      let { baseInfo, specifications, description, info } = this
       let main_image =  baseInfo.main_image.length > 0 ? this.getImgSrc(baseInfo.main_image)[0].content : ''
       specifications = specifications.reduce((prev, next) => {
         let { key, val } = next
@@ -160,6 +160,7 @@ export default {
 
       let params = {
         ...this.baseInfo,
+        ...info,
         main_image,
         specifications: JSON.stringify(specifications),
         description: this.getImgSrc(description) || [],
@@ -171,17 +172,17 @@ export default {
         this.updateProductInfo(params)
         return false
       }
-      this.createProductInfo(params)
+      this.creaeProductInfo(params)
       
     },
     /**
      * @desc 编辑
      */
     async updateProductInfo(params) {
-      let infoStr = window.sessionStorage.getItem('$editInfo')
-      let { product_item_info } = JSON.parse(infoStr)
+      // let infoStr = window.sessionStorage.getItem('$editInfo')
 
-      params.id = product_item_info.id - 0
+      console.log('params', params)
+      // if (params.base_info.item_id !== '-00000') { return false }
       let { errorCode } = await updateProductSkuInfo(params)
       if (errorCode === 0) {
         this.$router.go(-1)
