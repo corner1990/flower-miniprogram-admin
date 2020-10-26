@@ -15,11 +15,18 @@
           <template slot-scope="scope">
               <div class="flex">
                 <el-image
-                    class="table-td-thumb"
-                    :src="scope.row.base_info && scope.row.base_info.main_image || ''"
-                    :preview-src-list="[scope.row.base_info && scope.row.base_info.main_image]"
+                  class="table-td-thumb"
+                  :src="scope.row.base_info && scope.row.base_info.main_image || ''"
+                  :preview-src-list="[scope.row.base_info && scope.row.base_info.main_image]"
                 ></el-image>
-              <p class="product-name"> {{ scope.row.base_info && scope.row.base_info.product_name || '' }}</p>
+                <el-button
+                  type="text"
+                  class="product-name"
+                  @click="showDetail(scope.row)"
+                >
+                  {{ scope.row.base_info && scope.row.base_info.product_name || '' }}
+                </el-button>
+              <!-- <p class="product-name"> </p> -->
               </div>
             </template>
         </el-table-column>
@@ -88,6 +95,7 @@
 <script>
 import { dateFormat, formatPrice } from '@/utils/utils'
 import { deleteProduct, operateProduct } from '../api'
+import { mapMutations } from 'vuex'
 export default {
   name: 'data-table',
   props: {
@@ -128,7 +136,13 @@ export default {
     }
   },
   methods: {
-
+    ...mapMutations('product', {
+      setStore: 'update'
+    }),
+    showDetail(info) {
+      this.setStore({key: 'info', val: info})
+      this.$emit('update', 'showDetail', true)
+    },
     // 触发搜索按钮
     handleSearch() {
         this.$set(this.query, 'pageIndex', 1);

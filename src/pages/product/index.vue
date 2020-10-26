@@ -4,6 +4,7 @@
     <router-link to="/release-product" class="release-btn">
       <el-button type="primary" >发布商品</el-button>
     </router-link>
+    
     <el-tabs
       v-model="publish_type"
       type="card"
@@ -17,7 +18,7 @@
         :key="key"
       >
         
-        <dataTable :list="list" :type="publish_type" />
+        <dataTable :list="list" :type="publish_type" @update="update" />
       </el-tab-pane>
     </el-tabs>
     <div class="pagination">
@@ -29,13 +30,21 @@
         :total="pageInfo.count"
         @current-change="handlePageChange"
       ></el-pagination>
-      </div>
+    </div>
+    <el-dialog
+      :visible.sync="showDetail"
+      width="420px"
+    >
+      <MobileProductDetail :info="{}" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
+// import { mapState, mapMutations } from 'vuex'
 import Search from './product-compoent/search'
 import dataTable from './product-compoent/data-table'
+import MobileProductDetail from '../../components/product-detail'
 import { getProductList } from './api'
 export default {
   name: 'product',
@@ -44,7 +53,8 @@ export default {
   },
   components: {
     Search,
-    dataTable
+    dataTable,
+    MobileProductDetail
   },
   data() {
     return {
@@ -71,12 +81,19 @@ export default {
         page_size: 10,
         index: 0
       },
+      showDetail: false,
       loading: false
     }
   },
   methods: {
     handleClick() {
       this.loadInfo()
+    },
+    /**
+     * @desc  更新数据
+     */
+    update(key, value) {
+      this[key] = value
     },
     handlePageChange(index) {
       this.loadInfo(index-1)
