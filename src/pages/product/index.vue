@@ -4,8 +4,10 @@
     <router-link to="/release-product" class="release-btn">
       <el-button type="primary" >发布商品</el-button>
     </router-link>
-    
-    <el-tabs
+    <div class="table-wrap">
+      <dataTable :list="list" :type="publish_type" @update="update" />
+    </div>
+    <!-- <el-tabs
       v-model="publish_type"
       type="card"
       @tab-click="handleClick"
@@ -20,7 +22,7 @@
         
         <dataTable :list="list" :type="publish_type" @update="update" />
       </el-tab-pane>
-    </el-tabs>
+    </el-tabs> -->
     <div class="pagination">
       <el-pagination
         background
@@ -155,6 +157,10 @@ export default {
     .el-button{
       padding: 10px 20px;
     }
+  }
+  .table-wrap{
+    background-color: #fff;
+    padding: 0 12px;
   }
   .pagination{
     background: #fff;
