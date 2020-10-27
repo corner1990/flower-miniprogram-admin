@@ -55,45 +55,23 @@ export default {
         },
         {
           icon: 'el-icon-s-goods',
-          index: 'content',
-          title: '内容管理',
-          subs: [
-            {
-              icon: 'el-icon-s-goods',
-              index: '/product',
-              title: '商品管理'
-            },
-            {
-              icon: 'el-icon-s-order',
-              index: '/orders/index',
-              title: '订单管理'
-            },
-            {
-              icon: 'el-icon-s-claim',
-              index: 'theater',
-              title: '剧场'
-            },
-            {
-              icon: 'el-icon-postcard',
-              title: '发布文字内容',
-              index: 'text'
-            },
-            {
-              icon: 'el-icon-picture',
-              title: '发布图片内容',
-              index: 'image'
-            },
-            {
-              icon: 'el-icon-video-camera-solid',
-              title: '发布短视频内容',
-              index: 'video'
-            },
-            {
-              icon: 'el-icon-s-opportunity',
-              title: '发布资讯',
-              index: 'ads'
-            }
-          ]
+          index: '/product',
+          title: '商品管理'
+        },
+        {
+          icon: 'el-icon-s-order',
+          index: '/orders/index',
+          title: '订单管理'
+        },
+        {
+          icon: 'el-icon-s-goods',
+          index: '/banner',
+          title: 'banner管理'
+        },
+        {
+          icon: 'el-icon-s-goods',
+          index: '/user-manager',
+          title: '用户管理'
         }
       ]
     }

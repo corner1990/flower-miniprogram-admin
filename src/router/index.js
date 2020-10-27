@@ -5,11 +5,9 @@ import Login from './login' // 登录
 import Home from './home'
 import Product from './product'
 import Orders from './orders'
-import Ip from './ip'
-import Star from './star'
-import Theater from './theater'
-import Material from './material'
 import UploadImg from './upload-img'
+import Banner from './banner'
+import UserManager from './user-manager'
 
 /**
  * @des 导出路由
@@ -19,10 +17,8 @@ const routes = [
   ...Home,
   ...Product,
   ...Orders,
-  ...Ip,
-  ...Star,
-  ...Theater,
-  ...Material,
+  ...Banner,
+  ...UserManager,
   ...UploadImg
 ]
 Vue.use(VueRouter)

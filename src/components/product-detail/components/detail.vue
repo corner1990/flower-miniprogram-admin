@@ -2,7 +2,7 @@
   <div class="detail">
     <h4>商品详情</h4>
     <img
-      v-for="(img, key) in info.detail.detail_list"
+      v-for="(img, key) in detailList"
       :key="key"
       class="detail-img"
       :src="img.content"
@@ -42,6 +42,14 @@ export default {
   },
   computed: {
     ...mapState('product', ['info']),
+    detailList() {
+      let { detail } = this.info
+      let arr =[]
+      if (detail) {
+        arr = detail.detail_list
+      }
+      return arr
+    }
   }
 }
 </script>
