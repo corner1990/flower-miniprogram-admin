@@ -57,7 +57,7 @@
         </el-table-column>
         <el-table-column label="状态" align="center">
             <template slot-scope="scope">
-                <p>{{scope.row.base_info.publish_status === 1 ? '上架' : '下架'}}</p>
+                <p>{{scope.row.base_info.publish_status === "1" ? '上架' : '下架'}}</p>
             </template>
         </el-table-column>
         <el-table-column label="操作" width="180" align="center">
@@ -65,19 +65,19 @@
             <el-button
               type="text"
               icon="el-icon-edit"
-              v-show="scope.row.base_info.publish_status !== 1"
+              v-show="scope.row.base_info.publish_status !== '1'"
               @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button>
             <el-button
               type="text"
               icon="el-icon-edit"
-              v-show="scope.row.base_info.publish_status !== 1"
+              v-show="scope.row.base_info.publish_status !== '1'"
               @click="operation(scope.$index, scope.row)"
             >上架</el-button>
             <el-button
               type="text"
               icon="el-icon-edit"
-              v-show="scope.row.base_info.publish_status === 1"
+              v-show="scope.row.base_info.publish_status === '1'"
               @click="operation(scope.$index, scope.row)"
             >下架</el-button>
             <!-- <el-button
@@ -199,7 +199,7 @@ export default {
       let { type } = this
       type -= 0
       // 操作类型 ：1.上架0.下架
-      let publish_status = row.publish_status === 1 ? 0 : 1
+      let publish_status = row.base_info.publish_status === '1' ? 0 : 1
       let msg = '下架成功'
       if (publish_status === 1) {
         msg = "上架成功"
@@ -208,7 +208,7 @@ export default {
       if (errorCode === 0) {
         this.$message.success(msg)
         this.tableData = this.tableData.map(item => {
-          if (item.id !== row.id) return item
+          if (item.base_info.item_id !== row.base_info.item_id) return item
           return {
             ...row,
             base_info: {
