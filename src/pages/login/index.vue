@@ -3,22 +3,22 @@
     <div class="ms-login">
         <div class="ms-title">后台管理系统</div>
         <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
-          <el-form-item prop="username">
-            <el-input v-model="param.username" placeholder="username">
-              <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
+          <el-form-item prop="account">
+            <el-input v-model="param.account" placeholder="账号">
+              <el-button slot="prepend" icon="el-icon-news"></el-button>
             </el-input>
           </el-form-item>
-          <!-- <el-form-item prop="password">
+          <el-form-item prop="password">
             <el-input
                 type="password"
-                placeholder="password"
+                placeholder="密码"
                 v-model="param.password"
-                @keyup.enter.native="submitForm()"
+                @keyup.enter.native="login()"
             >
-              <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
+              <el-button slot="prepend" icon="el-icon-setting"></el-button>
             </el-input>
-          </el-form-item> -->
-          <el-form-item prop="vertify">
+          </el-form-item>
+          <!-- <el-form-item prop="vertify">
             <el-input
               type="vertify"
               placeholder="vertify"
@@ -27,7 +27,7 @@
             >
               <el-button slot="append" @click="getVerifyCode">{{ syncText }}</el-button>
             </el-input>
-          </el-form-item>
+          </el-form-item> -->
           <div class="login-btn">
             <el-button type="primary" @click="login">登录</el-button>
           </div>
@@ -38,24 +38,20 @@
 </template>
 
 <script>
-import { verifiyLogin, verifyLoginCode, getUserInfo } from './login-api'
-import crypto from '@/utils/crypto.js'
+import { adminAccountLogin, getUserInfo } from './login-api'
+
 export default {
   data: function() {
     return {
       param: {
-        username: '',
-        password: '',
-        vertify: ''
+        account: '',
+        password: ''
       },
       rules: {
-        username: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
-        // password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-        vertify: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
-      },
-      text: '获取验证码',
-      wait: 60,
-      timer: null
+        account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        // vertify: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
+      }
     };
   },
   methods: {
@@ -73,17 +69,6 @@ export default {
       });
     },
     /**
-     * @desc 倒计时
-     */
-    autoStep() {
-      if (this.wait > 1) {
-        this.wait = this.wait - 1;
-        this.timer = window.setTimeout(this.autoStep, 1000);
-        return false;
-      }
-      this.wait = 60;
-      clearTimeout(this.timer);
-    },/**
      * @desc 验证手机号
      */
     checkPhone() {
@@ -108,41 +93,18 @@ export default {
       }
     },
     /**
-     * @desc 获取验证码
+     * @desc 
      */
-    async getVerifyCode() {
-      if (!this.checkPhone()) {
-        return false
-      }
-      if (this.wait !== 60) {
-        this.$message({
-          message: '获取验证码太频繁，请稍后再试',
-          type: 'warning',
-          duration: 2000
-        });
-        return false;
-      }
-      let { username } = this.param
-      username =  crypto.encrypt(username)
-      await verifiyLogin({ phone: username, action: 'login' });
-      this.autoStep();
-    },
     async vertify() {
-      let {
-        username,
-        vertify
-      } = this.param
-      username =  crypto.encrypt(username)
-      let { errorCode, data } = await verifyLoginCode({
-        phone: username,
-        code: vertify,
-        action: 'login'
-      })
+      let { errorCode, data } = await adminAccountLogin(this.param)
       if (errorCode === 0) {
         window.localStorage.setItem('$user_id', data.user_id)
+        window.localStorage.setItem('$_token', JSON.stringify(data))
+        
+        console.log('JSON.stringify(data)', JSON.stringify(data))
         // 读取重定向地址
         let rejectInfo =  window.localStorage.getItem('$_reject')
-        this.loadInfo()
+        // this.loadInfo()
         
         if (rejectInfo) {
           this.$router.replace(JSON.parse(rejectInfo))
@@ -168,21 +130,7 @@ export default {
       
     }
   },
-  computed: {
-    disabled() {
-      let { phone } = this
-      let phoneReg=/^[1][3,4,5,7,8][0-9]{9}$/
-      if (phoneReg.test(phone)) {
-        return true
-      }
-      return false
-    },
-    syncText() {
-      let { wait, text } = this
-      if (wait === 60) return text
-      return `${wait}秒后重新获取` 
-    }
-  }
+  computed: {}
 };
 </script>
 

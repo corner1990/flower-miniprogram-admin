@@ -19,3 +19,5 @@ export const verifyLoginCode = (params) => request.post('/api/admin/IndexAdmin/v
  * @param {*} params 
  */
 export const getUserInfo =  (params) => request.get('/api/user/user/getUserInfo', params)
+// 管理后台登录
+export const adminAccountLogin =  (params) => request.post('/api/admin/adminAccount/adminAccountLogin', params)

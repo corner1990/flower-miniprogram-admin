@@ -67,7 +67,7 @@ service.interceptors.response.use(
         } = response
         
         // 登录信息失效  重新登录
-        let reLogin = [401, 402]
+        let reLogin = [401, 402, 403]
         if (reLogin.includes(errorCode)) {
           // eslint-disable-next-line no-debugger
           window.localStorage.removeItem('$user_id')
@@ -85,7 +85,7 @@ service.interceptors.response.use(
             duration: 2000
           })
         } else{
-          let reg = /verifyLoginCode/ig
+          let reg = /adminAccountLogin/ig
 
           if(reg.test(config.url)) {
             console.log('response', response)
