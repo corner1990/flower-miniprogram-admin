@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 // 订单列表
-export const getOrderList = params => request.post('/api/admin/OrderAdmin/getOrderList', params)
+export const getOrderList = params => request.post('/api/admin/orderAdmin/queryOrderList', params)
 // 发货
 export const deliverOrder = params => request.post('/api/admin/orderAdmin/deliverOrder', params)
 // 关闭订单

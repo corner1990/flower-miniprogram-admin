@@ -1,7 +1,19 @@
 <template>
   <div class="orders">
     <h2 class="title">订单管理</h2>
-    <Search @search="search" />
+    <!-- <div
+      class="date-piker-wrap"
+      v-show="activeName == '60'"
+    >
+      <el-date-picker
+        v-model="day"
+        align="right"
+        type="date"
+        placeholder="选择日期"
+        :picker-options="pickerOptions">
+      </el-date-picker>
+    </div> -->
+    <!-- <Search @search="search" /> -->
     <section class="content">
       <el-tabs v-model="activeName" type="card" @tab-click="changeStatus">
         <template>
@@ -31,14 +43,11 @@
 </template>
 
 <script>
-import Search from './order/search'
+// import Search from './order/search'
 import DataTable from './order/data-table'
 import { getOrderList, getExpressList } from './api'
 export default {
   name: 'orders',
-  props: {
-    msg: String
-  },
   data() {
     return {
       tabs: [
@@ -47,24 +56,12 @@ export default {
           key: 'all'
         },
         {
-          label: '待付款',
-          key: '10'
-        },
-        {
           label: '待发货',
           key: '30'
         },
         {
           label: '已发货',
           key: '40'
-        },
-        {
-          label: '已完成',
-          key: '50'
-        },
-        {
-          label: '已关闭',
-          key: '60'
         }
       ],
       filterInfo: {
@@ -79,11 +76,37 @@ export default {
         index: 0
       },
       expressList: [],
-      loading: false
+      loading: false,
+      day: '',
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
+      }
     }
   },
   components: {
-    Search,
+    // Search,
     DataTable
   },
   methods: {
@@ -160,6 +183,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .orders{
+  position: relative;
   .title{
     background: #fff;
     padding: 10px 15px;
@@ -171,6 +195,12 @@ export default {
       background: #fff;
       overflow: inherit;
     }
+  }
+  .date-piker-wrap{
+    position: absolute;
+    top: 79px;
+    right: 12px;
+    z-index: 2;
   }
 }
 </style>

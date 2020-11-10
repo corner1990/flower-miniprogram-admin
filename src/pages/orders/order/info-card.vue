@@ -17,33 +17,22 @@
           
         </p>
         <P class="order-time">下单时间： {{info.order_base_info.created_timestamp | formTime}}</P>
-        <!-- <el-table-column prop="receiver" label="买家/收货人">
-            <span slot-scope="scope">{{ scope.row.order_base_info.receiver }}</span>
-        </el-table-column>
-        <el-table-column label="实付金额(元)" align="center">
-            <span slot-scope="scope">{{ scope.row.order_base_info.total_price }}</span>
-        </el-table-column>
-
-        <el-table-column prop="pay_timestamp" label="下单时间">
-            <span slot-scope="scope">{{ scope.row.order_base_info.created_timestamp | formTime }}</span>
-        </el-table-column> -->
-         <p>支付金额：&yen; {{ info.order_product_info.total_price - 0 }} 
-           （含运费&yen; {{info.order_product_info.shipping_price}}）
+       
+         <p>支付金额：&yen; {{ info.order_base_info.pay_price - 0 }} 
+           （含运费&yen; {{info.order_base_info.shipping_price}}）
            </p>
-        <p>{{ info.pay_type }}</p>
+        <p>微信支付</p>
       </div>
       <!-- <el-button type="text">备注</el-button> -->
     </div>
     <div class="orders-info-content flex">
       <div class="flex" style="min-width: 300px;">
-        <img class="img" :src="info.order_product_info.product_main_pic" alt="" srcset="">
+        <img class="img" :src="info.order_product_list[0].main_image" alt="" srcset="">
         <div class="box" style="margin-left: 10px;">
-          <p>{{info.order_product_info.product_name}}</p>
-          <p>规格：{{ spec }}</p>
+          <p>{{info.order_product_list[0].product_name}}</p>
         </div>
       </div>
       <div class="box receiver">
-        <!-- <p>{{info.order_user_info.nick_name}}</p> -->
         <p>{{info.order_base_info.receiver}} {{info.order_base_info.phone}}</p>
         <p>
           {{info.order_base_info.province}}
@@ -52,12 +41,9 @@
           {{info.order_base_info.address}}
         </p>
       </div>
-      <div class="box" v-if="info.order_base_info.express_company">
-        <p>快递公司：{{info.order_base_info.express_company}}</p>
-        <p>快递单号： {{info.order_base_info.express_no}}</p>
-      </div>
+     
       <div class="box">
-        <p>商品数量： {{info.order_product_info.count}}</p>
+        <p>商品数量：{{info.order_product_list[0].count }} </p>
       </div>
       <div class="box">
         <p>
@@ -140,7 +126,7 @@ export default {
   },
   computed: {
     spec() {
-      let arr = this.info.order_product_info.product_specifications || []
+      let arr = this.info.order_product_list[0].product_specifications || []
       return arr.map(item => item.attr).join(';')
     },
     canCanel() {
