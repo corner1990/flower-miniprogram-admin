@@ -97,7 +97,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .data-table{
-  max-height: calc(100vh - 460px);
+  max-height: calc(100vh - 320px);
   overflow: auto;
 }
 </style>

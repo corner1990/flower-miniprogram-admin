@@ -59,17 +59,27 @@ export default {
           title: '商品管理'
         },
         {
+          icon: 'el-icon-view',
+          index: '/found',
+          title: '发现页内容管理'
+        },
+        {
           icon: 'el-icon-s-order',
           index: '/orders/index',
           title: '订单管理'
         },
         {
-          icon: 'el-icon-s-goods',
+          icon: 'el-icon-date',
+          index: '/calendar/index',
+          title: '送花日历'
+        },
+        {
+          icon: 'el-icon-picture-outline',
           index: '/banner',
           title: 'banner管理'
         },
         {
-          icon: 'el-icon-s-goods',
+          icon: 'el-icon-news',
           index: '/user-manager',
           title: '用户管理'
         }

@@ -52,7 +52,7 @@
       </div>
       <div>
         <el-button type="text" @click="dirverVisible = true" v-if="status === 20">发货</el-button>
-        <el-button type="text" @click="cancelCurrOrder" v-show="canCanel">关闭订单</el-button>
+        <!-- <el-button type="text" @click="cancelCurrOrder" v-show="canCanel">关闭订单</el-button> -->
       </div>
     </div>
     <el-dialog title="发货" :visible.sync="dirverVisible" width="30%">
