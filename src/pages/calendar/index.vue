@@ -86,11 +86,8 @@ export default {
     /**
      * @desc 加载数据
      */
-    async loadInfo(index = 0) {
-      let { errorCode, data } = await getOrderList({
-        ...this.filterInfo,
-        index
-      })
+    async loadInfo(filterInfo) {
+      let { errorCode, data } = await getOrderList(filterInfo)
       if (errorCode === 0) {
         this.list = data.calendar_list
         // this.pageInfo = data.pageInfo
@@ -100,21 +97,24 @@ export default {
      * @des 搜索
      */
     search(filterInfo) {
-      this.pageInfo = {
-        index: 0,
-        page_size: 10
-      }
-     
+
       this.filterInfo = filterInfo
-      this.loadInfo()
+      console.log('this', filterInfo)
+      this.$nextTick(() => this.loadInfo(filterInfo))
     },
-    handlePageChange(index) {
-      this.loadInfo(index-1)
+    handlePageChange() {
+      // this.loadInfo(this.filterInfo)
     },
     /**
      * @desc 发获
      */
     dirver(info) {
+      let { list } = this
+      let id = info.order_id
+      this.list = list.map(item => {
+        if (item.order_id !== id) return item
+        return info
+      })
       console.log('info', info)
     }
   },
@@ -126,12 +126,6 @@ export default {
     }
   },
   mounted() {
-    // let date = dateFormat(new Date, 'YYYYmmdd')
-    this.filterInfo = { date: '20201110' }
-    this.$nextTick(() => {
-      // this.loadExpressList()
-      this.loadInfo()
-    })
   }
 }
 </script>

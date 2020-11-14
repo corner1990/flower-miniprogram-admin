@@ -4,6 +4,8 @@
     <el-table
       :data="list"
       class="table"
+      :stripe="true"
+
       style="width: 100%">
       <el-table-column
         label="鲜花"
@@ -15,10 +17,10 @@
       </el-table-column>
       <el-table-column
         prop="name"
-        label="包月鲜花"
-        width="120">
+        label="鲜花类型"
+        width="80">
         <template slot-scope="scope">
-         <p>{{scope.row.week_num}}</p>
+         <p>{{scope.row.product_type === 2 ? '礼品鲜花' : '包月鲜花'}}</p>
         </template>
       </el-table-column>
       <el-table-column
@@ -57,6 +59,7 @@
         </template>
       </el-table-column>
       <el-table-column
+        align="center"
         prop="address"
         label="配送状态">
         <template slot-scope="scope">
@@ -68,6 +71,7 @@
         </template>
       </el-table-column>
       <el-table-column
+        align="center"
         label="是否匿名">
         <template slot-scope="scope">
           <div class="anonymous">
@@ -77,6 +81,7 @@
         </template>
       </el-table-column>
       <el-table-column
+        align="center"
         label="操作">
         <template slot-scope="scope">
          <el-button @click="dirver(scope.row)" v-show="!scope.row.delivery_timestamp">发货</el-button>
@@ -104,10 +109,10 @@ export default {
   data() {
     return {
         query: {
-            address: '',
-            name: '',
-            pageIndex: 1,
-            pageSize: 10
+          address: '',
+          name: '',
+          pageIndex: 1,
+          pageSize: 10
         },
         tableData: [],
         multipleSelection: [],
@@ -135,23 +140,21 @@ export default {
             .catch(() => {});
       },
       async dirver(info) {
-        if (info) {
-          return this.$emit('dirver', info)
-        }
+        
         let { errorCode } = await deliverOrder(info)
         if (errorCode === 0) {
           this.$message({
           message: '发获成功',
           type: 'success'
         });
-          this.$emit('dirver', info)
+          this.$emit('dirver', {...info, delivery_timestamp: new Date().getTime()})
         }
       }
   },
   filters: {
     formTime(t) {
       t = new Date(t * 1000)
-      return dateFormat(t)
+      return dateFormat(t, 'YYYY-mm-dd HH:MM')
     }
   },
 }

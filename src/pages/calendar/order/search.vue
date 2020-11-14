@@ -8,7 +8,7 @@
          <el-date-picker
           v-model="info.date"
           align="right"
-          default-value="2020-10-28"
+          default-value="2020-10-01"
           type="date"
           placeholder="选择日期"
           value-format="yyyyMMdd"
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+let today = new Date()
 export default {
   name: 'product-search',
   props: {
@@ -32,11 +33,11 @@ export default {
     return {
       info: {
         order_sn: '',
-        date: ''
+        date: today
       },
       resetInfo: {
        order_sn: '',
-        date: ''
+        date: today
       },
       pickerOptions: {
         disabledDate(time) {
@@ -73,6 +74,10 @@ export default {
       this.info = this.resetInfo
       this.$emit('search', this.info, 'reset')
     }
+  },
+  mounted() {
+    let date = today.toLocaleDateString().replace(/\//g, '')
+    this.$emit('search', { date }, 'search')
   }
 }
 </script>
