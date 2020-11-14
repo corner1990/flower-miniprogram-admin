@@ -23,8 +23,18 @@
           </el-input>
         </el-form-item>
          <el-form-item label="banner排序" prop="sort">
-           <el-input class="medium" v-model="formInfo.sort">
+           <el-input class="medium" v-model="formInfo.sort" placeholder="请输入1,2,3,4... 等顺序数字">
           </el-input>
+        </el-form-item>
+        <el-form-item label="banner场景" prop="space_id">
+          <el-select v-model="formInfo.space_id" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
        
         <el-form-item label="banner图片" prop="main_image">
@@ -107,7 +117,8 @@ export default {
         image: [],
         title: '',
         link: '',
-        sort: ''
+        sort: 1,
+        space_id: '0'
       },
       dialogImageUrl: '',
       dialogVisible: false,
@@ -123,7 +134,21 @@ export default {
           { required: true, message: '请上传Banner图', trigger: 'blur' }
         ],
         
-      }
+      },
+      options: [
+        {
+          value: '0',
+          label: '首页banner',
+        },
+        {
+          value: '1',
+          label: '包月鲜花',
+        },
+        {
+          value: '2',
+          label: '礼品鲜花'
+        }
+      ]
     }
   },
   computed: {
@@ -256,7 +281,8 @@ export default {
           title,
           link,
           sort,
-          image
+          image,
+          space_id
         } = this.formInfo
         if (sort === '') {
           sort = 10
@@ -266,6 +292,7 @@ export default {
           title,
           link,
           sort,
+          space_id,
           image: img.content
         }
         // 编辑

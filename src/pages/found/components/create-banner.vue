@@ -14,20 +14,20 @@
         :model="formInfo"
         :rules="rules"
       >
-        <el-form-item label="banner链接" prop="link">
+        <!-- <el-form-item label="banner链接" prop="link">
           <el-input class="medium" v-model="formInfo.link">
           </el-input>
-        </el-form-item>
-        <el-form-item label="banner描述" prop="title">
-           <el-input class="medium" v-model="formInfo.title">
+        </el-form-item> -->
+        <el-form-item label="描述文案" prop="content">
+           <el-input class="medium" v-model="formInfo.content">
           </el-input>
         </el-form-item>
-         <el-form-item label="banner排序" prop="sort">
+         <!-- <el-form-item label="banner排序" prop="sort">
            <el-input class="medium" v-model="formInfo.sort">
           </el-input>
-        </el-form-item>
+        </el-form-item> -->
        
-        <el-form-item label="banner图片" prop="main_image">
+        <el-form-item label="展示图片" prop="image">
           <el-upload
             action="#"
             :file-list="formInfo.image"
@@ -105,7 +105,7 @@ export default {
       labelPosition: 'right',
       formInfo: {
         image: [],
-        title: '',
+        content: '',
         link: '',
         sort: ''
       },
@@ -113,14 +113,11 @@ export default {
       dialogVisible: false,
       disabled: false,
       rules:{
-        link: [
-          { required: true, message: '请输入Banner链接', trigger: 'blur' }
-        ],
-        title: [
-          { required: true, message: '请选择Banner描述', trigger: 'blur' }
+        content: [
+          { required: true, message: '请选择文字描述', trigger: 'blur' }
         ],
         image: [
-          { required: true, message: '请上传Banner图', trigger: 'blur' }
+          { required: true, message: '请上传展示图片', trigger: 'blur' }
         ],
         
       }
@@ -128,7 +125,7 @@ export default {
   },
   computed: {
     title() {
-      let title = '创建banner'
+      let title = '创建发现页内容'
       if (this.syncInfo) {
         title = '编辑banner'
       }
@@ -145,9 +142,7 @@ export default {
     cancel() {
       this.formInfo = {
         image: [],
-        title: '',
-        link: '',
-        sort: ''
+        content: ''
       }
       this.$emit('update', 'showEdit', false)
       this.$emit('update', 'editInfo', null)
@@ -233,7 +228,7 @@ export default {
       let {
         data
       } = syncInfo
-      let keys = ['link', 'sort', 'title']
+      let keys = ['content']
       keys.map(key => {
         this.formInfo[key] = syncInfo[key]
       })
@@ -253,19 +248,15 @@ export default {
           return this.$message.error('请上传banner图片');
         }
         let {
-          title,
-          link,
-          sort,
+          content,
           image
         } = this.formInfo
-        if (sort === '') {
-          sort = 10
-        }
+        // if (sort === '') {
+        //   sort = 10
+        // }
         let img = this.getImgSrc(image)[0]
         let params = {
-          title,
-          link,
-          sort,
+          content,
           image: img.content
         }
         // 编辑

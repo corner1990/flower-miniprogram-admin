@@ -3,15 +3,28 @@
     <div class="release-btn">
       <el-button type="primary" @click="showEdit = true">创建banner</el-button>
     </div>
-    <div class="table-wrap">
-      <dataTable :list="list" @update="update" @refresh="loadInfo" />
-    </div>
+     <el-tabs v-model="activeName" type="card" @tab-click="changeStatus">
+        <template>
+          <el-tab-pane
+            :label="tab.label"
+            :name="tab.key"
+            v-for="(tab, key) in tabs"
+            :key="key"
+            
+          >
+            <div class="table-wrap">
+              <dataTable :list="list" @update="update" @refresh="refresh" />
+            </div>
+          </el-tab-pane>
+        </template>
+      </el-tabs>
+    
     
     <CreateBanner
       :show="showEdit"
       :info="editInfo"
       @update="update"
-      @refresh="loadInfo" 
+      @refresh="refresh" 
     />
     
   </div>
@@ -33,7 +46,24 @@ export default {
   },
   data() {
     return {
-    
+      tabs: [
+        {
+          label: '首页',
+          key: '0'
+        },
+        {
+          label: '包月鲜花',
+          key: '1'
+        },
+        {
+          label: '礼品鲜花',
+          key: '2'
+        }
+      ],
+      filterInfo: {
+        'space_id': 0
+      },
+      activeName: '0',
       list: [],
       editInfo: null,
       showEdit: false
@@ -54,10 +84,20 @@ export default {
      * @desc 加载数据
      */
     async loadInfo() {
-      let { errorCode, data } = await getIndexBannerList()
+      let { errorCode, data } = await getIndexBannerList(this.filterInfo)
       if (errorCode === 0) {
         this.list = data.banner_list
       }
+    },
+    refresh() {
+      this.loadInfo()
+    },
+    changeStatus(tab) {
+      this.list = []
+      let { name: space_id } = tab
+      this.filterInfo = { space_id }
+      
+      this.loadInfo()
     },
   },
   created() {

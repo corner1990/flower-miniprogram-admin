@@ -23,6 +23,9 @@
         <el-table-column label="banner标题">
             <template slot-scope="scope"><el-tag type="success">{{scope.row.title}}</el-tag></template>
         </el-table-column>
+        <el-table-column label="banner场景">
+            <template slot-scope="scope"><el-tag type="success">{{scope.row.space_id | filterSpace}}</el-tag></template>
+        </el-table-column>
         <el-table-column label="链接">
           <template slot-scope="scope">
             <el-tag>{{scope.row.link}}</el-tag>
@@ -121,6 +124,14 @@ export default {
       if (!str) return ''
       let obj = JSON.parse(str)
       return obj.image && obj.image
+    },
+    filterSpace(key) {
+      let status = {
+        0: '首页banner',
+        1: '包月鲜花',
+        2: '礼品鲜花'
+      }
+      return status[key]
     }
   },
   mounted() {

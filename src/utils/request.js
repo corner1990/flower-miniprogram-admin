@@ -67,7 +67,7 @@ service.interceptors.response.use(
         } = response
         
         // 登录信息失效  重新登录
-        let reLogin = [401, 402, 403]
+        let reLogin = [400, 401, 402, 403]
         if (reLogin.includes(errorCode)) {
           // eslint-disable-next-line no-debugger
           window.localStorage.removeItem('$user_id')
