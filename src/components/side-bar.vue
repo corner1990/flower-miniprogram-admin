@@ -12,7 +12,11 @@
     >
       <template v-for="item in items">
         <template v-if="item.subs">
-          <el-submenu :index="item.index" :key="item.index">
+          <el-submenu
+            :index="item.index"
+            :key="item.index"
+            :default-active="active"
+          >
             <template slot="title">
               <i :class="item.icon"></i>
               <span slot="title">{{ item.title }}</span>
@@ -47,11 +51,23 @@ export default {
   data() {
     return {
       collapse: false,
+      active: '/calendar/index',
       items: [
+        // {
+        //   icon: 'el-icon-s-home',
+        //   index: '/',
+        //   title: '系统首页'
+        // },
+        
         {
-          icon: 'el-icon-s-home',
-          index: '/',
-          title: '系统首页'
+          icon: 'el-icon-date',
+          index: '/calendar/index',
+          title: '送花日历'
+        },
+        {
+          icon: 'el-icon-s-order',
+          index: '/orders/index',
+          title: '订单管理'
         },
         {
           icon: 'el-icon-s-goods',
@@ -62,16 +78,6 @@ export default {
           icon: 'el-icon-view',
           index: '/found',
           title: '发现页内容管理'
-        },
-        {
-          icon: 'el-icon-s-order',
-          index: '/orders/index',
-          title: '订单管理'
-        },
-        {
-          icon: 'el-icon-date',
-          index: '/calendar/index',
-          title: '送花日历'
         },
         {
           icon: 'el-icon-picture-outline',

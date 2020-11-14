@@ -7,7 +7,7 @@ const HomeRoutes = [
       title: 'home',
       keepAlive: true
     },
-    redirect: { path: '/home' }
+    redirect: { path: '/calendar/index' }
   },
   {
     path: '/home',

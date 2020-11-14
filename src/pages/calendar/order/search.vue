@@ -8,7 +8,6 @@
          <el-date-picker
           v-model="info.date"
           align="right"
-          default-value="2020-10-01"
           type="date"
           placeholder="选择日期"
           value-format="yyyyMMdd"
@@ -40,9 +39,10 @@ export default {
         date: today
       },
       pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        },
+        // disabledDate(time) {
+        //   let mounth = 86400000 * 30
+        //   return time.getTime() - mounth > Date.now();
+        // },
         shortcuts: [{
           text: '今天',
           onClick(picker) {
@@ -63,7 +63,8 @@ export default {
             picker.$emit('pick', date);
           }
         }]
-      }
+      },
+      defaultVal: ''
     }
   },
   methods: {
