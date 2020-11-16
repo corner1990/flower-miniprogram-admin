@@ -37,9 +37,9 @@
         <el-table-column label="价格">
             <template slot-scope="scope">￥{{scope.row.base_info.format_sale_price}}</template>
         </el-table-column>
-        <el-table-column label="库存">
+        <!-- <el-table-column label="库存">
           <template slot-scope="scope">{{scope.row.base_info.stock}}</template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="销量" align="center">
             <template slot-scope="scope">
                 <el-tag
@@ -245,6 +245,23 @@ export default {
       }
       return res
 
+    },
+    /**
+    * @desc 复制粘贴
+    */
+    copyUrl() {
+      let target = ''
+      let transfer = document.createElement('input');
+      document.body.appendChild(transfer);
+      transfer.value = target.value;  // 这里表示想要复制的内容
+      transfer.focus();
+      transfer.select();
+      if (document.execCommand('copy')) {
+          document.execCommand('copy');
+      }
+      transfer.blur();
+      console.log('复制成功');
+      document.body.removeChild(transfer);
     }
   },
   mounted() {

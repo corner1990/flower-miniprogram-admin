@@ -5,7 +5,6 @@
       :data="list"
       class="table"
       :stripe="true"
-
       style="width: 100%">
       <el-table-column
         label="鲜花"

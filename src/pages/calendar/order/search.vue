@@ -1,9 +1,9 @@
 <template>
   <div class="orders-search">
     <el-form :inline="true" :model="info" class="demo-form-inline">
-      <el-form-item label="订单号">
+      <!-- <el-form-item label="订单号">
         <el-input v-model="info.order_sn" placeholder="订单号"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="送货日期">
          <el-date-picker
           v-model="info.date"
@@ -77,8 +77,8 @@ export default {
     }
   },
   mounted() {
-    let date = today.toLocaleDateString().replace(/\//g, '')
-    this.$emit('search', { date }, 'search')
+    // let date = today.toLocaleDateString().replace(/\//g, '')
+    // this.$emit('search', { date }, 'search')
   }
 }
 </script>

@@ -13,7 +13,7 @@
           
         <!-- 用户头像 -->
         <div class="user-avator">
-          <img :src="(userInfo.avatar ? userInfo.avatar : '../../assets/img/img.jpg')" />
+          <img :src="(userInfo.avatar ? userInfo.avatar : 'https://ipxcdn.jfshare.com/system/admin/acf6f273c1cd77066b4541308f782a88.png')" />
         </div>
         <!-- 用户名下拉菜单 -->
         <el-dropdown class="user-name" trigger="click" @command="handleCommand">
@@ -43,17 +43,8 @@ export default {
     return {
       collapse: false,
       userInfo: {
-        "id":"1000054",
-        "user_type":"1",
-        "sex":null,
-        "nick_name":"小花仙5eeb2d1dd5ea0",
-        "avatar":"https://ipxcdn.jfshare.com/system/default_header.png",
-        "background":null,
-        "birthday":null,
-        "status":"1",
-        "created_timestamp":"1592470813",
-        "platform":null,
-        "user_extra":{"follow_num":0,"post_num":0}
+        "nick_name":"小花仙",
+        "avatar":"https://ipxcdn.jfshare.com/system/admin/acf6f273c1cd77066b4541308f782a88.png"
       }
     }
   },

@@ -27,9 +27,16 @@
     </div>
     <div class="orders-info-content flex">
       <div class="flex" style="min-width: 300px;">
-        <img class="img" :src="info.order_product_list[0].main_image" alt="" srcset="">
-        <div class="box" style="margin-left: 10px;">
-          <p>{{info.order_product_list[0].product_name}}</p>
+        <div
+          v-for="(item, key) in info.order_product_list"
+          :key="key"
+          class="product-wrap"
+          @click="showDetailFn(item)"
+        >
+          <img class="img" :src="item.main_image" alt="" srcset="">
+          <div class="box" style="margin-left: 10px;">
+            <p>{{item.product_name}}</p>
+          </div>
         </div>
       </div>
       <div class="box receiver">
@@ -79,6 +86,20 @@
         <el-button @click="closeDriver">取消</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      title="商品详情"
+      :visible.sync="showDetail"
+      width="600px">
+      <div class="detail-info">
+         <img class="product-img" :src="detail.main_image" alt="product-img" srcset="">
+          <div class="box" style="margin-left: 10px;">
+            <h3>{{detail.product_name}}</h3>
+          </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="showDetail = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -112,8 +133,21 @@ export default {
           { required: true, message: '请选输入快递单号', trigger: 'blur' }
         ]
       },
+      /**
+       * OrderStateDeleted = 0,  //已删除   （左：无，右：无）
+        OrderStateWaitPay = 10,  //待付款（左：取消，右：去支付）
+        
+        OrderStatePayed = 20,   //已付款       （左：无，右：催发货）
+        OrderStateWaitShip = 30,    //待发货  （左：无，右：催发货）
+        OrderStateWaitRecv = 40,    //待收货 （左：查看物流，右：确认收货）
+        
+        OrderStateDone = 50,  //交易完成       （左：无，右：删除订单）
+        OrderStateClose = 60,   //交易关闭     （左：无，右：删除订单）
+        OrderStateWaitReview = 70,   //待评价（左：删除订单，右：去评价）
+        OrderStateReviewed = 80,    //已评价  （左：删除订单，查看评价）
+        */
       tags: {
-        '10': '',
+        '10': 'info',
         '20': 'warning',
         '30': 'warning',
         '40': 'warning',
@@ -121,7 +155,9 @@ export default {
         '60': 'info',
         '70': 'success',
         '80': 'success'
-      }
+      },
+      showDetail: false,
+      detail: {}
     }
   },
   computed: {
@@ -206,6 +242,10 @@ export default {
         express_no: ''
       }
       this.dirverVisible = false
+    },
+    showDetailFn(info) {
+      this.showDetail = true
+      this.detail = info
     }
   },
   mounted() {
@@ -239,7 +279,9 @@ export default {
   .flex{
     display: flex;
   }
-  
+  .product-wrap{
+    margin-right: 8px;
+  }
   .orders-info-content{
     padding: 6px;
     font-size: 14px;
@@ -263,6 +305,13 @@ export default {
   .btn-wrap{
     display: flex;
     justify-content: center;
+  }
+}
+.detail-info{
+  .product-img{
+    max-height: 500px;
+    max-width: 550px;
+    object-fit: cover;
   }
 }
 </style>

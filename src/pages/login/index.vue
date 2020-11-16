@@ -31,7 +31,7 @@
           <div class="login-btn">
             <el-button type="primary" @click="login">登录</el-button>
           </div>
-          <p class="login-tips">Tips : 用户名为手机号</p>
+          <p class="login-tips">Tips : 账号和密码</p>
         </el-form>
     </div>
   </div>

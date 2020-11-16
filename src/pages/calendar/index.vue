@@ -99,7 +99,6 @@ export default {
     search(filterInfo) {
 
       this.filterInfo = filterInfo
-      console.log('this', filterInfo)
       this.$nextTick(() => this.loadInfo(filterInfo))
     },
     handlePageChange() {
@@ -115,7 +114,6 @@ export default {
         if (item.order_id !== id) return item
         return info
       })
-      console.log('info', info)
     }
   },
   filters: {
@@ -126,6 +124,7 @@ export default {
     }
   },
   mounted() {
+    this.loadInfo({})
   }
 }
 </script>
