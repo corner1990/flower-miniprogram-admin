@@ -9,7 +9,7 @@ export const createProduct = params => request.post('/api/admin/productAdmin/cre
 // 批量上/下架商品
 export const operateProduct = params => request.post('/api/admin/productAdmin/updateProductPublishStatus', params)
 // 删除商品item
-export const deleteProduct = params => request.post('/api/admin/ProductAdmin/deleteProductItem', params) //弃用 改用operateProduct
+export const deleteProduct = params => request.post('/api/admin/ProductAdmin/deleteProduct', params) //弃用 改用operateProduct
 // 创建商品item
 export const createProductItem = params => request.post('/api/admin/ProductAdmin/CreateProductItem', params)
 // 获取品牌列表

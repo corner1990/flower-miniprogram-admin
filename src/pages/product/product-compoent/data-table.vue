@@ -50,22 +50,23 @@
 
         <el-table-column prop="created_timestamp" label="创建时间">
           <template slot-scope="scope">
-                <el-tag
-                  type="info"
-                >{{scope.row.base_info.created_timestamp | dateFormat}}</el-tag>
+                <p
+                >{{scope.row.base_info.created_timestamp | dateFormat}}</p>
             </template>
         </el-table-column>
         <el-table-column label="状态" align="center">
             <template slot-scope="scope">
-                <p>{{scope.row.base_info.publish_status === "1" ? '上架' : '下架'}}</p>
+              <p>
+                <el-tag type="success" v-show="scope.row.base_info.publish_status == 1">上架</el-tag>
+                <el-tag type="warning" v-show="scope.row.base_info.publish_status != 1">下架</el-tag>
+              </p>
             </template>
         </el-table-column>
-        <el-table-column label="操作" width="180" align="center">
+        <el-table-column label="操作" width="240" align="center">
           <template slot-scope="scope">
             <el-button
               type="text"
               icon="el-icon-edit"
-              v-show="scope.row.base_info.publish_status !== '1'"
               @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button>
             <el-button
@@ -80,12 +81,12 @@
               v-show="scope.row.base_info.publish_status === '1'"
               @click="operation(scope.$index, scope.row)"
             >下架</el-button>
-            <!-- <el-button
+            <el-button
               type="text"
               icon="el-icon-delete"
               class="red"
               @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button> -->
+            >删除</el-button>
           </template>
         </el-table-column>
     </el-table>
@@ -157,8 +158,9 @@ export default {
             type: 'warning'
         })
           .then(() => {
-            let { id } = row
-            return deleteProduct({item_id: id})
+            let { item_id } = row.base_info
+
+            return deleteProduct({item_id})
           })
           .then((res) => {
             let { errorCode, errorMessage } = res
