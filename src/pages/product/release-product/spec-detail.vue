@@ -21,6 +21,11 @@
             </el-input>
           </template>
         </el-table-column>
+         <el-table-column label="操作" width="100" align="center">
+          <template slot-scope="scope">
+            <el-button type="text" @click="delItem(scope)">删除</el-button>
+          </template>
+        </el-table-column>
     </el-table>
     <div class="add-btn-wrap">
       <el-button @click="addInfo">添加规格</el-button>
@@ -76,14 +81,35 @@ export default {
     addInfo() {
       this.tableData.push({key: '', val: ''})
     },
-    initData(list) {
-      console.log('list', list)
+    /**
+     * @desc 删除
+     */
+    delItem(scope) {
+      let list = this.tableData
+      list = list.filter((item, key) => {
+        return key !== scope.$index
+      })
+      console.log('list', scope.$index)
+      this.tableData = list
+      this.$emit('update', 'specifications', list)
     },
-    
-  
-    
+    /**
+     * @desc 初始化编辑参数
+     */
     initParmas() {
-      console.log('initParmas')
+       let infoStr = window.sessionStorage.getItem('$editInfo')
+
+      let {
+        specifications
+      } = JSON.parse(infoStr)
+      if (!specifications) return false
+      specifications = JSON.parse(specifications)
+      specifications = specifications.map(item => {
+        let key = Object.keys(item)[0]
+        return  { key, val: item[key] }
+      })
+      this.tableData = specifications
+      this.$emit('update', 'specifications', specifications)
     }
   },
   mounted() {
@@ -92,7 +118,7 @@ export default {
       // 处理商品规格无法编辑的的问题
      setTimeout(() => {
        this.initParmas()
-     }, 1000)
+     }, 500)
     }
   }
 }
@@ -102,6 +128,7 @@ export default {
 <style lang="less">
 
 .spec-detail{
+  padding-right: 450px;
   .add-btn-wrap{
     margin-top: 20px;
   }

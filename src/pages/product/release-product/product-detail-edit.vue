@@ -151,7 +151,7 @@ export default {
     initInfo() {
       let infoStr = window.sessionStorage.getItem('$editInfo')
       let { detail = {} } = JSON.parse(infoStr)
-      console.log('JSON.parse(infoStr)', detail, this.editInfo)
+      
       this.fileList = detail.detail_list.map(item => {
         return {...item, url: item.content}
       })

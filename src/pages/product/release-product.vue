@@ -4,18 +4,18 @@
     <BaseInfo @update="update" :editInfo="editInfo" />
     <!-- <PriceWarehouse @update="update" :editInfo="editInfo" /> -->
     
-    <!-- <el-form
+    <el-form
       :label-position="labelPosition"
       label-width="100px"
       ref="specialForm"
       class="specil-form"
       :model="info"
       :rules="rules"
-    > -->
-      <!-- <el-form-item label="规格明细"> -->
+    >
+      <el-form-item label="规格明细">
         <!-- <p class="tip-text">待商品规格保存后可设置规格明细</p> -->
-        <!-- <SpecDetail :list="specifications" @update="update" /> -->
-      <!-- </el-form-item> -->
+        <SpecDetail :list="specifications" @update="update" />
+      </el-form-item>
       <!-- <el-form-item label="品牌故事" prop="brand_story">
         <el-input class="medium" v-model="info.brand_story">
         </el-input>
@@ -36,10 +36,10 @@
         <el-input class="medium" v-model="info.after_sale_instructions">
         </el-input>
       </el-form-item> -->
-    <!-- </el-form> -->
+    </el-form>
     <ProductDetailEdit @update="update" :editInfo="editInfo" />
     <div class="btn-wrap">
-      <el-button type="primary" @click="vertify">保存并预览</el-button>
+      <el-button type="" @click="cancel">取消编辑</el-button><el-button type="primary" @click="vertify">保存并预览</el-button>
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@
 <script>
 import BaseInfo from './release-product/base-info'
 // import PriceWarehouse from './release-product/price-warehose'
-// import SpecDetail from './release-product/spec-detail'
+import SpecDetail from './release-product/spec-detail'
 import ProductDetailEdit from './release-product/product-detail-edit'
 import { createProduct, getProductDetail, updateProductSkuInfo  } from './api'
 
@@ -56,7 +56,7 @@ export default {
   props: {},
   components: {
     BaseInfo,
-    // SpecDetail,
+    SpecDetail,
     ProductDetailEdit
   },
   data() {
@@ -131,6 +131,9 @@ export default {
             return false;
           }
       })
+    },
+    cancel() {
+      this.$router.go(-1)
     },
     /**
      * @desc 验证信息
@@ -276,7 +279,7 @@ export default {
   }
   .btn-wrap{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     height: 200px;
     background: @white;

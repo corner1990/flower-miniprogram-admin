@@ -37,8 +37,10 @@
         <el-table-column label="价格">
             <template slot-scope="scope">￥{{scope.row.base_info.format_sale_price}}</template>
         </el-table-column>
-        <!-- <el-table-column label="库存">
-          <template slot-scope="scope">{{scope.row.base_info.stock}}</template>
+        <!-- <el-table-column label="商品地址">
+          <template slot-scope="scope">
+            <el-tag @click="copyUrl(scope.row)">复制站内链接</el-tag>
+          </template>
         </el-table-column> -->
         <el-table-column label="销量" align="center">
             <template slot-scope="scope">
@@ -66,24 +68,25 @@
           <template slot-scope="scope">
             <el-button
               type="text"
-              icon="el-icon-edit"
+              class="red"
+              @click="copyUrl(scope.row)"
+            >复制站内链接</el-button>
+            <el-button
+              type="text"
               @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button>
             <el-button
               type="text"
-              icon="el-icon-edit"
               v-show="scope.row.base_info.publish_status !== '1'"
               @click="operation(scope.$index, scope.row)"
             >上架</el-button>
             <el-button
               type="text"
-              icon="el-icon-edit"
               v-show="scope.row.base_info.publish_status === '1'"
               @click="operation(scope.$index, scope.row)"
             >下架</el-button>
             <el-button
               type="text"
-              icon="el-icon-delete"
               class="red"
               @click="handleDelete(scope.$index, scope.row)"
             >删除</el-button>
@@ -224,6 +227,27 @@ export default {
         })
       }
     },
+    /**
+    * @desc 复制粘贴
+    */
+    copyUrl(info) {
+      let path = `/pages/productDetail/index?id=${info.base_info.item_id}`
+      let transfer = document.createElement('input');
+      transfer.classList.add('copy-input')
+      document.body.appendChild(transfer);
+      transfer.value = path;  // 这里表示想要复制的内容
+      transfer.focus();
+      transfer.select();
+      if (document.execCommand('copy')) {
+          document.execCommand('copy');
+      }
+      transfer.blur();
+      this.$message({
+          message: '复制成功',
+          type: 'success'
+        });
+      document.body.removeChild(transfer);
+    }
   },
   filters: {
     /**
@@ -247,27 +271,12 @@ export default {
       }
       return res
 
-    },
-    /**
-    * @desc 复制粘贴
-    */
-    copyUrl() {
-      let target = ''
-      let transfer = document.createElement('input');
-      document.body.appendChild(transfer);
-      transfer.value = target.value;  // 这里表示想要复制的内容
-      transfer.focus();
-      transfer.select();
-      if (document.execCommand('copy')) {
-          document.execCommand('copy');
-      }
-      transfer.blur();
-      console.log('复制成功');
-      document.body.removeChild(transfer);
     }
   },
   mounted() {
     this.tableData = this.list
+
+    
   }
 }
 </script>
@@ -278,5 +287,12 @@ export default {
   .product-name{
     margin-left: 10px;
   }
+}
+</style>
+<style>
+.copy-input{
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
 }
 </style>

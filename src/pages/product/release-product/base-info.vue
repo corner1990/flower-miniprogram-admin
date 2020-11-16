@@ -86,9 +86,9 @@
           <template slot="prepend">&yen;</template>
         </el-input>
       </el-form-item>
-      <el-form-item label="库存" prop="stock">
+      <!-- <el-form-item label="库存" prop="stock">
         <el-input class="medium" v-model="info.stock"></el-input>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="">
@@ -234,6 +234,7 @@ export default {
       let {
         base_info
       } = JSON.parse(infoStr)
+
       let main_image = base_info.main_image ? [{url: base_info.main_image}] : []
       this.info = {
         ...base_info,
