@@ -111,6 +111,7 @@ export default {
 .banner{
   position: relative;
   background: #fff;
+  height: calc(100% - 40px);
   .product-tab{
     background: #fff;
     margin-top: 16px;

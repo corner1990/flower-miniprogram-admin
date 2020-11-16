@@ -57,10 +57,10 @@
           <el-tag :type="tags[info.order_base_info.order_status] || ''">{{ info.order_base_info.order_status | initStatus }}</el-tag>
         </p>
       </div>
-      <div>
-        <el-button type="text" @click="dirverVisible = true" v-if="status === 20">发货</el-button>
+      <!-- <div> -->
+        <!-- <el-button type="text" @click="dirverVisible = true" v-if="status === 20">发货</el-button> -->
         <!-- <el-button type="text" @click="cancelCurrOrder" v-show="canCanel">关闭订单</el-button> -->
-      </div>
+      <!-- </div> -->
     </div>
     <el-dialog title="发货" :visible.sync="dirverVisible" width="30%">
       <el-form :model="form" :rules="rules" ref="driverForm" class="driverForm" id="driverForm">

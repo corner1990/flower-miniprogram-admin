@@ -52,7 +52,7 @@
         label="配送时间">
         <template slot-scope="scope">
           <div class="delivery">
-            <p class="info">{{ scope.row.delivery_timestamp | formTime}}</p>
+            <p class="info">{{ scope.row.expected_time}}</p>
             <p></p>
           </div>
         </template>
@@ -64,7 +64,7 @@
         <template slot-scope="scope">
           <div class="reciver">
             <el-tag type="success" v-show="scope.row.delivery_timestamp">已发货</el-tag>
-            <el-tag v-show="!scope.row.delivery_timestamp">未发货</el-tag>
+            <el-tag type="warning" v-show="!scope.row.delivery_timestamp">未发货</el-tag>
             <p></p>
           </div>
         </template>
@@ -152,6 +152,9 @@ export default {
   },
   filters: {
     formTime(t) {
+      if(!t) {
+        return '暂无'
+      }
       t = new Date(t * 1000)
       return dateFormat(t, 'YYYY-mm-dd HH:MM')
     }

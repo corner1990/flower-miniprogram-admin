@@ -2,7 +2,7 @@
   <div class="data-table">
     <el-table
         :data="tableData"
-        max-height="550"
+        max-height="500"
         border
         class="table"
         ref="multipleTable"
@@ -143,12 +143,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .data-table{
+  max-height: 80%;
   .product-name{
     margin-left: 10px;
   }
   .banner-img{
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 120px;
+    max-height: 120px;
     object-fit: cover;
   }
   .big-banner{
