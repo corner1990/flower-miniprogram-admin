@@ -14,16 +14,14 @@
         <!-- <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column> -->
         <el-table-column prop="name" label="商品名称" width="240" >
           <template slot-scope="scope">
-              <div class="flex">
+              <div class="flex" @click="showDetail(scope.row)">
                 <el-image
-                  class="table-td-thumb"
+                  class="product-img"
                   :src="scope.row.base_info && scope.row.base_info.main_image || ''"
-                  :preview-src-list="[scope.row.base_info && scope.row.base_info.main_image]"
                 ></el-image>
                 <el-button
                   type="text"
                   class="product-name"
-                  @click="showDetail(scope.row)"
                 >
                   {{ scope.row.base_info && scope.row.base_info.product_name || '' }}
                 </el-button>
@@ -286,6 +284,11 @@ export default {
 .data-table{
   .product-name{
     margin-left: 10px;
+  }
+  .product-img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
   }
 }
 </style>
