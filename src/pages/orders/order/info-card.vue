@@ -26,7 +26,7 @@
       <!-- <el-button type="text">备注</el-button> -->
     </div>
     <div class="orders-info-content flex">
-      <div class="flex" style="min-width: 300px;">
+      <div class="flex">
         <div
           v-for="(item, key) in info.order_product_list"
           :key="key"
@@ -281,6 +281,7 @@ export default {
   }
   .product-wrap{
     margin-right: 8px;
+    width: 100px;
   }
   .orders-info-content{
     padding: 6px;
