@@ -9,5 +9,5 @@ export const createBanner = params => request.post('/api/admin/feedAdmin/createF
 export const deleteBanner = params => request.post('/api/admin/feedAdmin/deleteFeed', params)
 
 // 编辑Banner
-export const updateBanner = params => request.post('/api/admin/BannerAdmin/updateBanner', params)
+export const updateBanner = params => request.post('/api/admin/feedAdmin/updateFeed', params)
 

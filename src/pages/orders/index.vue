@@ -53,20 +53,24 @@ export default {
       tabs: [
         {
           label: '全部',
-          key: 'all'
+          key: '0'
         },
         {
           label: '待发货',
-          key: '30'
+          key: '1'
         },
+        // {
+        //   label: '待收货',
+        //   key: '2'
+        // },
         {
           label: '已发货',
-          key: '40'
+          key: '3'
         }
       ],
       filterInfo: {
       },
-      activeName: 'all',
+      activeName: '0',
       allData: {}, // 保存所有数据
       list: [],
       order_status: '',
@@ -120,7 +124,7 @@ export default {
       let { errorCode, data } = await getOrderList({
         ...this.pageInfo,
         ...this.filterInfo,
-        order_status,
+        order_type: order_status,
         index
       })
       this.loading = false
@@ -175,7 +179,7 @@ export default {
   },
   mounted() {
     this.loadInfo()
-    this.loadExpressList()
+    // this.loadExpressList()
   }
 }
 </script>

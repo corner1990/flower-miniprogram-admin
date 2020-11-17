@@ -28,9 +28,9 @@
             <el-tag>{{scope.row.link}}</el-tag>
           </template>
         </el-table-column> -->
-        <el-table-column label="编辑" width="120" align="center">
+        <el-table-column label="操作" width="120" align="center">
           <template slot-scope="scope">
-            <!-- <el-button type="text" @click="editBanner(scope.row)">编辑</el-button> -->
+            <el-button type="text" @click="editBanner(scope.row)">编辑</el-button>
             <el-button type="text" @click="confirmDel(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -138,8 +138,8 @@ export default {
     margin-left: 10px;
   }
   .banner-img{
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 100px;
+    max-height: 100px;
     object-fit: cover;
   }
   .big-banner{

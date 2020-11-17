@@ -4,7 +4,7 @@
       :visible="show"
       width="540px"
       :title="title"
-      :close="cancel"
+      @close="cancel"
     >
       <el-form
         :label-position="labelPosition"
@@ -19,7 +19,12 @@
           </el-input>
         </el-form-item> -->
         <el-form-item label="描述文案" prop="content">
-           <el-input class="medium" v-model="formInfo.content">
+           <el-input
+            class="medium"
+            v-model="formInfo.content"
+            type="textarea"
+            :rows="2"
+           >
           </el-input>
         </el-form-item>
          <!-- <el-form-item label="banner排序" prop="sort">
@@ -114,11 +119,11 @@ export default {
       disabled: false,
       rules:{
         content: [
-          { required: true, message: '请选择文字描述', trigger: 'blur' }
+          { required: true, message: '请输入文字描述', trigger: 'blur' }
         ],
         image: [
           { required: true, message: '请上传展示图片', trigger: 'blur' }
-        ],
+        ]
         
       }
     }
@@ -127,7 +132,7 @@ export default {
     title() {
       let title = '创建发现页内容'
       if (this.syncInfo) {
-        title = '编辑banner'
+        title = '编辑内容'
       }
       return title
     },
@@ -225,17 +230,12 @@ export default {
     initInfo() {
       let { syncInfo } = this
       if (!syncInfo) return false
-      let {
-        data
-      } = syncInfo
-      let keys = ['content']
-      keys.map(key => {
-        this.formInfo[key] = syncInfo[key]
-      })
+      let detail = syncInfo.feed_detail
       // 处理图片
-      if (data) {
-        data = JSON.parse(data)
-        this.formInfo.image = [{url: data.image}]
+      let image = detail.image_list.map( img => ({ ...img, url: img.image }))
+      this.formInfo = {
+        image,
+        content: detail.description
       }
     },
     /**
@@ -245,7 +245,7 @@ export default {
       this.$refs.bannerForm.validate(vaild => {
         if (!vaild) return false
         if (this.formInfo.image.length === 0) {
-          return this.$message.error('请上传banner图片');
+          return this.$message.error('请上传图片');
         }
         let {
           content,
@@ -297,8 +297,8 @@ export default {
      * @desc 更新banner
      */
     async updateBannerFn(params) {
-      let { id } = this.syncInfo
-      let { errorCode } = await updateBanner({...params, id})
+      let { feed_id } = this.syncInfo.feed_base_info
+      let { errorCode } = await updateBanner({...params, feed_id })
       if (errorCode === 0) {
         this.$emit('refresh')
         this.cancel()
