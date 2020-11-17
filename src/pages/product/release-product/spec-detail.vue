@@ -89,7 +89,7 @@ export default {
       list = list.filter((item, key) => {
         return key !== scope.$index
       })
-      console.log('list', scope.$index)
+      
       this.tableData = list
       this.$emit('update', 'specifications', list)
     },

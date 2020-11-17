@@ -12,6 +12,8 @@
           :limit="5"
           :file-list="fileList"
           :on-change="handleChange"
+          multiple
+          drag
           list-type="picture-card"
           :http-request="uploadImg">
             <i slot="default" class="el-icon-plus"></i>
@@ -190,6 +192,10 @@ export default {
     background: #fff;
     padding: 0 15px 15px;
   }
+  .el-upload-dragger{
+    width: auto;
+    height: auto;
+  }
   .item-title{
     &{
       line-height: 32px;
@@ -213,6 +219,15 @@ export default {
     .medium{
       width: 216px;
     }
+  }
+}
+</style>
+<style lang="less">
+.base-info{
+  .el-upload-dragger{
+    width: auto;
+    height: auto;
+    border: none;
   }
 }
 </style>

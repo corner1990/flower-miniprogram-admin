@@ -236,10 +236,16 @@ export default {
       } = JSON.parse(infoStr)
 
       let main_image = base_info.main_image ? [{url: base_info.main_image}] : []
+      let sale_price = base_info.sale_price / 100
+      let original_price = base_info.original_price / 100
+      let shipping_price = base_info.shipping_price / 100
       this.info = {
         ...base_info,
         main_image,
-        current_price: base_info.sale_price
+        sale_price,
+        original_price,
+        shipping_price,
+        current_price: base_info.format_original_price
       }
       this.$emit('update', 'baseInfo', base_info)
     },

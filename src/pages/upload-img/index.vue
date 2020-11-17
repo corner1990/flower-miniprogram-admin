@@ -8,6 +8,8 @@
       <el-form-item label="">
         <el-upload
           action="#"
+          drag
+          multiple
           :file-list="fileList"
           :on-change="handleChange"
           list-type="picture-card"

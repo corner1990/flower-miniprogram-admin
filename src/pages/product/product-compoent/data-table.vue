@@ -51,7 +51,7 @@
         <el-table-column prop="created_timestamp" label="创建时间">
           <template slot-scope="scope">
                 <p
-                >{{scope.row.base_info.created_timestamp | dateFormat}}</p>
+                >{{scope.row.base_info.updated_timestamp | dateFormat}}</p>
             </template>
         </el-table-column>
         <el-table-column label="状态" align="center">
