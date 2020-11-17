@@ -245,7 +245,7 @@ export default {
         sale_price,
         original_price,
         shipping_price,
-        current_price: base_info.format_original_price
+        current_price: sale_price
       }
       this.$emit('update', 'baseInfo', base_info)
     },

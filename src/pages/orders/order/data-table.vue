@@ -7,7 +7,7 @@
       :stripe="true"
       style="width: 100%">
       <el-table-column
-        label="鲜花"
+        label="订单商品"
         width="170">
         <template slot-scope="scope">
           <div class="product-wrap">
@@ -17,22 +17,21 @@
               class="product"
             >
               <img class="img" :src="info.main_image" alt="" srcset="">
-              <p>{{info.product_name}}</p>
+              <p>{{info.product_name}} * {{info.count}} </p>
             </div>
-             
           </div>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="name"
-        label="鲜花类型"
+        label="订单类型"
         width="80">
         <template slot-scope="scope">
-         <p>{{scope.row.product_type === 2 ? '礼品鲜花' : '包月鲜花'}}</p>
+       
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
-        label="送货地址"
+        label="收货地址"
         width="200"
       >
         <template slot-scope="scope">
@@ -59,36 +58,48 @@
       </el-table-column>
       <el-table-column
         prop="address"
-        label="配送时间">
+        label="配送信息">
         <template slot-scope="scope">
           <div class="delivery">
-            <p class="info">{{ scope.row.order_base_info.expected_time}}</p>
-            <p></p>
+            配送状态：
+            <el-tag type="success" v-show="scope.row.delivery_timestamp">已发货</el-tag>
+            <el-tag type="warning" v-show="!scope.row.delivery_timestamp">未发货</el-tag>
+            <p class="info">期望配送时间：{{ scope.row.order_base_info.expected_time}}</p>
+            <p class="info">匿名配送： {{ scope.row.anonymous_status ? '是' : '否'}}</p>
           </div>
         </template>
       </el-table-column>
       <el-table-column
+        prop="detail"
+        label="订单信息">
+        <template slot-scope="scope">
+          <div class="delivery">
+            <p class="info">订 单 号：{{ scope.row.order_base_info.order_sn}}</p>
+            <p class="info">支付价格：&yen;{{ scope.row.order_base_info.pay_price}}</p>
+            <p class="info">下单时间： {{ scope.row.order_base_info.created_timestamp | formTime}}</p>
+            <p>订单类型： {{scope.row.product_type === 2 ? '礼品鲜花' : '包月鲜花'}}</p>
+          </div>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column
         align="center"
         prop="address"
         label="配送状态">
         <template slot-scope="scope">
           <div class="reciver">
-            <el-tag type="success" v-show="scope.row.delivery_timestamp">已发货</el-tag>
-            <el-tag type="warning" v-show="!scope.row.delivery_timestamp">未发货</el-tag>
-            <p></p>
+           
           </div>
         </template>
-      </el-table-column>
-      <el-table-column
+      </el-table-column> -->
+      <!-- <el-table-column
         align="center"
         label="是否匿名">
         <template slot-scope="scope">
           <div class="anonymous">
             <p class="info">{{ scope.row.anonymous_status ? '是' : '否'}}</p>
-            <p></p>
           </div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column
         align="center"
         label="操作">
@@ -182,7 +193,12 @@ export default {
     th{
       background-color: #00b799 !important;
     }
-  } 
+  }
+  .delivery{
+    .info{
+      line-height: 28px;
+    }
+  }
 }
 .product-wrap{
   display: flex;
