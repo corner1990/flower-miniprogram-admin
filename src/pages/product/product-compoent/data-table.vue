@@ -35,7 +35,7 @@
         <el-table-column label="价格">
             <template slot-scope="scope">￥{{scope.row.base_info.format_sale_price}}</template>
         </el-table-column>
-        <!-- <el-table-column label="商品地址">
+        <!-- <el-table-column label="商品地址 ceshi ">
           <template slot-scope="scope">
             <el-tag @click="copyUrl(scope.row)">复制站内链接</el-tag>
           </template>
