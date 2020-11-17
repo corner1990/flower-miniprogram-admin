@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { logout } from '../pages/login/login-api'
+// import { logout } from '../pages/login/login-api'
 import Bus from '@/components/bus'
 export default {
   name: 'main-header',
@@ -56,7 +56,7 @@ export default {
     // 用户名下拉菜单选择事件
     async handleCommand(command) {
         if (command == 'loginout') {
-            await logout()
+            // await logout()
             window.localStorage.removeItem('$user_id')
             window.localStorage.removeItem('$_token')
             window.localStorage.removeItem('$_user_info')
