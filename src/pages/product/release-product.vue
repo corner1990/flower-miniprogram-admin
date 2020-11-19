@@ -160,10 +160,18 @@ export default {
         prev.push({[key]: val})
         return prev
       }, [])
+      let {
+        current_price,
+        original_price
+      } = baseInfo
 
+      original_price = (original_price - 0) * 100
+      current_price = (current_price - 0) * 100
       let params = {
         ...this.baseInfo,
         ...info,
+        current_price,
+        original_price,
         main_image,
         specifications: JSON.stringify(specifications),
         description: this.getImgSrc(description) || [],
