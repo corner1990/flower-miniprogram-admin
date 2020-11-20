@@ -4,7 +4,6 @@ function dataURLtoBlob(dataurl) {
 
   var _arr = arr[1].substring(0, arr[1].length - 2)
 
-  console.log( _arr )
   var mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(_arr),
     n = bstr.length,

@@ -183,7 +183,7 @@ export default {
         this.updateProductInfo(params)
         return false
       }
-      this.creaeProductInfo(params)
+      this.createProductInfo(params)
       
     },
     /**
@@ -191,8 +191,6 @@ export default {
      */
     async updateProductInfo(params) {
       // let infoStr = window.sessionStorage.getItem('$editInfo')
-
-      console.log('params', params)
       // if (params.base_info.item_id !== '-00000') { return false }
       let { errorCode } = await updateProductSkuInfo(params)
       if (errorCode === 0) {
@@ -245,8 +243,8 @@ export default {
           id,
           type: 'image',
         }
-        if (item.response) {
-          img.content = item.response.requestUrls[0]
+        if (item.requestUrls) {
+          img.content = item.requestUrls[0]
         } else {
           img.content = item.url
         }

@@ -12,6 +12,7 @@
           :limit="5"
           :file-list="fileList"
           :on-change="handleChange"
+          :auto-upload="false"
           multiple
           drag
           list-type="picture-card"
@@ -82,6 +83,11 @@ export default {
     },
     handleChange(file, fileList) {
       this.fileList = fileList;
+      fileList.map(item => {
+        if (!item.requestUrls) {
+          this.cutImg(item)
+        }
+      })
       this.$emit('update', 'description', fileList)
     },
     handlePictureCardPreview(file) {
@@ -124,28 +130,64 @@ export default {
      * 上传图片
      * @param data
      */
-    async uploadImg(param) {
-      let { file } = param
+    async uploadImg(file) {
       // 处理文件名
       let imgName = md5(`${file.uid}-${file.name}`)
       let imgKey = `ipxmall/${imgName}`
-       var formData = new FormData();
-      formData.append("file", file);
-      
-      this.client.put(imgKey, file)
+      let uploadFile = file.image
+     
+      this.client.put(imgKey, uploadFile)
         .then(response => {
           // 上传完毕回调
           let res = response.res
           if (res.status === 200) {
-            
-            param.url = res.requestUrls
-            param.onSuccess(res) 
-            
+            file.requestUrls = res.requestUrls
+            // param.onSuccess(res) 
           } else {
-            param.onError(res)
+            // param.onError(res)
           }
           // 图片前缀
         })
+    },
+    /**
+     * @desc 剪贴图片
+     */
+    cutImg(file) {
+      let el = document.querySelector('#img')
+
+      if (!el) {
+        el = document.createElement('img')
+        el.style.position = 'absolute'
+        el.style.left = '-300000px'
+      }
+
+      el.src= file.url
+      let maxWidth = 1920
+      // let maxWidth = 500
+      
+      el.addEventListener('load', () => {
+        let { width, height } = el
+        if (width > maxWidth) {
+          height = Math.round((maxWidth / width * height))
+          width = maxWidth
+        }
+        this.drawImg(el, width, height, file)
+      })
+    },
+    /**
+     * @desc canvas 渲染图片
+     */
+    drawImg(img, width, height, file) {
+      let canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      let ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0,width, height)
+      canvas.toBlob( blob => {
+        file.image = blob
+
+        this.uploadImg(file)
+      }, 'image/jpeg', '0.8')
     },
     /**
      * @desc 编辑时初始化数据

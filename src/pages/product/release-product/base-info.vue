@@ -33,6 +33,7 @@
           :file-list="info.main_image"
           :limit="1"
           :on-change="mainHandleChange"
+          :auto-upload="false"
           list-type="picture-card"
           :http-request="uploadImg">
             <i slot="default" class="el-icon-plus"></i>
@@ -93,6 +94,7 @@
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
+    <img id="img" />
   </div>
 </template>
 
@@ -112,7 +114,7 @@ export default {
     return {
       labelPosition: 'right',
       info: {
-        stock: '',
+        stock: 99999,
         product_name: '',
         main_image: [],
         summary: '',
@@ -153,21 +155,14 @@ export default {
     /**
      * @desc 保存商品图片
      */
-    mainHandleChange(file, fileList) {
-      this.info.main_image = fileList;
-    },
-    /**
-     * @desc 保存背景图片
-     */
-    bgHandleChange(file, fileList) {
-      this.info.background_pic = fileList;
+    mainHandleChange(file) {
+   
+      this.info.main_image = [file]
+      this.cutImg(file)
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
-    },
-    handleDownload(file) {
-      console.log(file);
     },
     beforeUpload() {
       return false 
@@ -202,28 +197,64 @@ export default {
      * 上传图片
      * @param data
      */
-    async uploadImg(param) {
-      let { file } = param
+    async uploadImg(file) {
       // 处理文件名
       let imgName = md5(`${file.uid}-${file.name}`)
       let imgKey = `ipxmall/${imgName}`
-       var formData = new FormData();
-      formData.append("file", file);
-      
-      this.client.put(imgKey, file)
+      let uploadFile = file.image
+     
+      this.client.put(imgKey, uploadFile)
         .then(response => {
           // 上传完毕回调
           let res = response.res
           if (res.status === 200) {
-            
-            param.url = res.requestUrls
-            param.onSuccess(res) 
-            
+            file.requestUrls = res.requestUrls
+            // param.onSuccess(res) 
           } else {
-            param.onError(res)
+            // param.onError(res)
           }
           // 图片前缀
         })
+    },
+    /**
+     * @desc 剪贴图片
+     */
+    cutImg(file) {
+      let el = document.querySelector('#img')
+
+      if (!el) {
+        el = document.createElement('img')
+        el.style.position = 'absolute'
+        el.style.left = '-300000px'
+      }
+
+      el.src= file.url
+      let maxWidth = 1920
+      // let maxWidth = 500
+      
+      el.addEventListener('load', () => {
+        let { width, height } = el
+        if (width > maxWidth) {
+          height = Math.round((maxWidth / width * height))
+          width = maxWidth
+        }
+        this.drawImg(el, width, height, file)
+      })
+    },
+    /**
+     * @desc canvas 渲染图片
+     */
+    drawImg(img, width, height, file) {
+      let canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      let ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0,width, height)
+      canvas.toBlob( blob => {
+        file.image = blob
+
+        this.uploadImg(file)
+      }, 'image/jpeg', '0.8')
     },
     /**
      * @desc 编辑时初始化数据
@@ -362,6 +393,10 @@ export default {
     .medium{
       width: 216px;
     }
+  }
+  #img{
+    position: absolute;
+    left: -300000px;
   }
 }
 </style>
