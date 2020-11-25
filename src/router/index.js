@@ -8,6 +8,7 @@ import Orders from './orders'
 import UploadImg from './upload-img'
 import Banner from './banner'
 import UserManager from './user-manager'
+import SiteSeting from './site-seting'
 
 /**
  * @des 导出路由
@@ -19,7 +20,8 @@ const routes = [
   ...Orders,
   ...Banner,
   ...UserManager,
-  ...UploadImg
+  ...UploadImg,
+  ...SiteSeting
 ]
 Vue.use(VueRouter)
 

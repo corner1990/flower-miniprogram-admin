@@ -88,6 +88,11 @@ export default {
           icon: 'el-icon-news',
           index: '/user-manager',
           title: '用户管理'
+        },
+        {
+          icon: 'el-icon-setting',
+          index: '/site-seting',
+          title: '站点配置'
         }
       ]
     }
