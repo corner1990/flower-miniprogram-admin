@@ -82,11 +82,11 @@
           <template slot="prepend">&yen;</template>
         </el-input>
       </el-form-item>
-      <el-form-item label="快递运费" prop="shipping_price">
+      <!-- <el-form-item label="快递运费" prop="shipping_price">
         <el-input class="medium" v-model="info.shipping_price">
           <template slot="prepend">&yen;</template>
         </el-input>
-      </el-form-item>
+      </el-form-item> -->
       <!-- <el-form-item label="库存" prop="stock">
         <el-input class="medium" v-model="info.stock"></el-input>
       </el-form-item> -->
@@ -118,7 +118,7 @@ export default {
         product_name: '',
         main_image: [],
         summary: '',
-        shipping_price: '',
+        shipping_price: 0,
         current_price: '',
         original_price: ''
       },
