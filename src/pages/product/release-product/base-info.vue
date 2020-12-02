@@ -94,16 +94,16 @@
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
-    <img id="img" />
   </div>
 </template>
 
 <script>
 import {
-  getOssSign,
+  // getOssSign,
+  uploadBase64Image,
 } from '../api'
-import md5 from '@/utils/md5'
-import OSS from 'ali-oss'
+// import md5 from '@/utils/md5'
+// import OSS from 'ali-oss'
 
 export default {
   name: 'base-info',
@@ -170,70 +170,69 @@ export default {
     /**
      * @desc 获取签名
      */
-    async getSign() {
-      let { errorCode, data } = await getOssSign()
-      if (errorCode === 0) {
-        this.sign = data
-        let {
-          securityToken,
-          accessKeyId,
-          accessKeySecret,
-          bucket,
-          endpoint
-        } = data
-        // 创建实例
-        let client  = new OSS({
-          endpoint,
-          accessKeyId,
-          accessKeySecret,
-          bucket,
-          stsToken: securityToken
-        })
-        this.client  = client 
-      }
+    // async getSign() {
+    //   let { errorCode, data } = await getOssSign()
+    //   if (errorCode === 0) {
+    //     this.sign = data
+    //     let {
+    //       securityToken,
+    //       accessKeyId,
+    //       accessKeySecret,
+    //       bucket,
+    //       endpoint
+    //     } = data
+    //     // 创建实例
+    //     let client  = new OSS({
+    //       endpoint,
+    //       accessKeyId,
+    //       accessKeySecret,
+    //       bucket,
+    //       stsToken: securityToken
+    //     })
+    //     this.client  = client 
+    //   }
       
-    },
+    // },
     /**
      * 上传图片
      * @param data
      */
     async uploadImg(file) {
       // 处理文件名
-      let imgName = md5(`${file.uid}-${file.name}`)
-      let imgKey = `ipxmall/${imgName}`
+      // let imgName = md5(`${file.uid}-${file.name}`)
+      // let imgKey = `ipxmall/${imgName}`
       let uploadFile = file.image
-     
-      this.client.put(imgKey, uploadFile)
-        .then(response => {
-          // 上传完毕回调
-          let res = response.res
-          if (res.status === 200) {
-            file.requestUrls = res.requestUrls
-            // param.onSuccess(res) 
-          } else {
-            // param.onError(res)
-          }
-          // 图片前缀
-        })
+      let { errorCode, data } = await uploadBase64Image({file_base_64: uploadFile})
+      if (errorCode === 0) {
+        file.requestUrls = data
+      }
+      // this.client.put(imgKey, uploadFile)
+      //   .then(response => {
+      //     // 上传完毕回调
+      //     let res = response.res
+      //     if (res.status === 200) {
+      //       file.requestUrls = res.requestUrls
+      //       // param.onSuccess(res) 
+      //     } else {
+      //       // param.onError(res)
+      //     }
+      //     // 图片前缀
+      //   })
     },
     /**
      * @desc 剪贴图片
      */
     cutImg(file) {
-      let el = document.querySelector('#img')
-
-      if (!el) {
-        el = document.createElement('img')
-        el.style.position = 'absolute'
-        el.style.left = '-300000px'
-      }
+      let el = document.createElement('img')
+      el.style.position = 'absolute'
+      el.style.left = '-300000px'
 
       el.src= file.url
       let maxWidth = 1920
       // let maxWidth = 500
-      
       el.addEventListener('load', () => {
         let { width, height } = el
+        
         if (width > maxWidth) {
           height = Math.round((maxWidth / width * height))
           width = maxWidth
@@ -250,11 +249,15 @@ export default {
       canvas.height = height
       let ctx = canvas.getContext('2d')
       ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0,width, height)
-      canvas.toBlob( blob => {
-        file.image = blob
+      // canvas.toBlob( blob => {
+      //   file.image = blob
 
-        this.uploadImg(file)
-      }, 'image/jpeg', '0.8')
+      //   this.uploadImg(file)
+      // }, 'image/jpeg', '0.8')
+
+      file.image = canvas.toDataURL('image/jpeg', 0.71)
+      // 上传图片
+      this.uploadImg(file)
     },
     /**
      * @desc 编辑时初始化数据
@@ -350,7 +353,7 @@ export default {
   },
   created() {
     // 获取oss签名
-    this.getSign()
+    // this.getSign()
     if (this.isEdit) {
       this.initInfo()
     }

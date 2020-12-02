@@ -21,5 +21,8 @@ export const getProductCategoryList = params => request.post('/api/admin/Product
 export const getOssSign =  () => request.get('/api/system/aliyun/getOssSign')
 // 获取star列表
 export const getStarIpList = params => request.post('/api/admin/productAdmin/searchStarIpList', params)
-
+/**
+ * @desc 上传图片
+ */
+export const uploadBase64Image =  (params) => request.post('/api/system/media/uploadBase64Image ', params)
 

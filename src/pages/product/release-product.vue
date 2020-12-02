@@ -244,7 +244,7 @@ export default {
           type: 'image',
         }
         if (item.requestUrls) {
-          img.content = item.requestUrls[0]
+          img.content = item.requestUrls
         } else {
           img.content = item.url
         }
