@@ -43,8 +43,7 @@
             :file-list="formInfo.image"
             :limit="1"
             :on-change="mainHandleChange"
-            list-type="picture-card"
-            :http-request="uploadImg">
+            list-type="picture-card">
               <i slot="default" class="el-icon-plus"></i>
               <div slot="file" slot-scope="{file}">
                 <img
@@ -89,11 +88,9 @@
 </template>
 
 <script>
-import {
-  getOssSign,
-} from '../../api'
-import md5 from '@/utils/md5'
-import OSS from 'ali-oss'
+import { uploadBase64Image } from '../../product/api'
+// import md5 from '@/utils/md5'
+// import OSS from 'ali-oss'
 import { createBanner, updateBanner } from '../api'
 
 export default {
@@ -180,8 +177,9 @@ export default {
     /**
      * @desc 保存商品图片
      */
-    mainHandleChange(file, fileList) {
-      this.formInfo.image = fileList;
+    mainHandleChange(file) {
+      this.formInfo.image = [file];
+      this.cutImg(file)
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -197,57 +195,81 @@ export default {
       this.formInfo.image = []
     },
     /**
+     * @desc 剪贴图片
+     */
+    cutImg(file) {
+      let el = document.createElement('img')
+      el.style.position = 'absolute'
+      el.style.left = '-300000px'
+
+      el.src= file.url
+      let maxWidth = 1920
+      // let maxWidth = 500
+      el.addEventListener('load', () => {
+        let { width, height } = el
+        
+        if (width > maxWidth) {
+          height = Math.round((maxWidth / width * height))
+          width = maxWidth
+        }
+        this.drawImg(el, width, height, file)
+      })
+    },
+    /**
+     * @desc canvas 渲染图片
+     */
+    drawImg(img, width, height, file) {
+      let canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      let ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0,width, height)
+      // canvas.toBlob( blob => {
+      //   file.image = blob
+
+      //   this.uploadImg(file)
+      // }, 'image/jpeg', '0.8')
+
+      file.image = canvas.toDataURL('image/jpeg', 0.71)
+      // 上传图片
+      this.uploadImg(file)
+    },
+    /**
      * @desc 获取签名
      */
-    async getSign() {
-      let { errorCode, data } = await getOssSign()
-      if (errorCode === 0) {
-        this.sign = data
-        let {
-          securityToken,
-          accessKeyId,
-          accessKeySecret,
-          bucket,
-          endpoint
-        } = data
-        // 创建实例
-        let client  = new OSS({
-          endpoint,
-          accessKeyId,
-          accessKeySecret,
-          bucket,
-          stsToken: securityToken
-        })
-        this.client  = client 
-      }
+    // async getSign() {
+    //   let { errorCode, data } = await getOssSign()
+    //   if (errorCode === 0) {
+    //     this.sign = data
+    //     let {
+    //       securityToken,
+    //       accessKeyId,
+    //       accessKeySecret,
+    //       bucket,
+    //       endpoint
+    //     } = data
+    //     // 创建实例
+    //     let client  = new OSS({
+    //       endpoint,
+    //       accessKeyId,
+    //       accessKeySecret,
+    //       bucket,
+    //       stsToken: securityToken
+    //     })
+    //     this.client  = client 
+    //   }
       
-    },
+    // },
     /**
      * 上传图片
      * @param data
      */
-    async uploadImg(param) {
-      let { file } = param
-      // 处理文件名
-      let imgName = md5(`${file.uid}-${file.name}`)
-      let imgKey = `ipxmall/${imgName}`
-       var formData = new FormData();
-      formData.append("file", file);
-      
-      this.client.put(imgKey, file)
-        .then(response => {
-          // 上传完毕回调
-          let res = response.res
-          if (res.status === 200) {
-            
-            param.url = res.requestUrls
-            param.onSuccess(res) 
-            
-          } else {
-            param.onError(res)
-          }
-          // 图片前缀
-        })
+    async uploadImg(file) {      
+      let uploadFile = file.image
+      let { errorCode, data } = await uploadBase64Image({file_base_64: uploadFile})
+      if (errorCode === 0) {
+        file.requestUrls = data
+      }
     },
     /**
      * @desc 编辑时初始化数据
@@ -306,15 +328,15 @@ export default {
     /**
      * @desc 获取图片列表
      */
-    getImgSrc(fileList = []) {
+     getImgSrc(fileList = []) {
       if(!fileList.length) return ''
       return fileList.map((item, id) => {
         let img = {
           id,
           type: 'image',
         }
-        if (item.response) {
-          img.content = item.response.requestUrls[0]
+        if (item.requestUrls) {
+          img.content = item.requestUrls
         } else {
           img.content = item.url
         }
@@ -348,7 +370,7 @@ export default {
     }
   },
   mounted() {
-    this.getSign()
+    // this.getSign()
   }
 }
 </script>
