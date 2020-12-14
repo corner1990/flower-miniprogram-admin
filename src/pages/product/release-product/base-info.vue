@@ -205,6 +205,9 @@ export default {
       let { errorCode, data } = await uploadBase64Image({file_base_64: uploadFile})
       if (errorCode === 0) {
         file.requestUrls = data
+      } else {
+        this.info.main_image = []
+        this.$message.error('图片上传失败，请重新上传');
       }
       // this.client.put(imgKey, uploadFile)
       //   .then(response => {

@@ -136,7 +136,8 @@ export default {
         // file.url = data
         file.requestUrls = data
       } else {
-        delete file.load
+        this.fileList = this.fileList.filter(item => item !== file)
+        this.$message.error('图片上传失败，请重新上传');
       }
       // 处理文件名
       // let imgName = md5(`${file.uid}-${file.name}`)
