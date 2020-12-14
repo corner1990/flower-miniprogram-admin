@@ -69,7 +69,8 @@ export default {
       description: [],
       baseForm: null,
       editInfo: null,
-      info: {}
+      info: {},
+      loading: false
     }
   },
   computed: {
@@ -177,7 +178,7 @@ export default {
         description: this.getImgSrc(description) || [],
 
       }
-      
+      this.loading = true
       if (this.isEdit) { // 调用编辑接口
         
         this.updateProductInfo(params)
@@ -192,7 +193,9 @@ export default {
     async updateProductInfo(params) {
       // let infoStr = window.sessionStorage.getItem('$editInfo')
       // if (params.base_info.item_id !== '-00000') { return false }
+      if (this.loading) return false
       let { errorCode } = await updateProductSkuInfo(params)
+      this.loading = false
       if (errorCode === 0) {
         this.$router.go(-1)
       }
@@ -201,7 +204,9 @@ export default {
      * @desc 创建
      */
     async createProductInfo(params) {
+      if (this.loading) return false
       let { errorCode } = await createProduct(params)
+      this.loading = false
       if (errorCode === 0) {
         this.$router.go(-1)
       }
