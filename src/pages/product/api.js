@@ -24,5 +24,7 @@ export const getStarIpList = params => request.post('/api/admin/productAdmin/sea
 /**
  * @desc 上传图片
  */
-export const uploadBase64Image =  (params) => request.post('/api/system/media/uploadBase64Image ', params)
+export const uploadBase64Image =  (params) => request.post('/api/system/media/uploadBase64Image ', params, {
+  timeout: 30000
+})
 

@@ -202,10 +202,17 @@ export default {
       // let imgName = md5(`${file.uid}-${file.name}`)
       // let imgKey = `ipxmall/${imgName}`
       let uploadFile = file.image
-      let { errorCode, data } = await uploadBase64Image({file_base_64: uploadFile})
-      if (errorCode === 0) {
-        file.requestUrls = data
-      } else {
+      try {
+        let { errorCode, data } = await uploadBase64Image({file_base_64: uploadFile})
+        if (errorCode === 0) {
+          file.requestUrls = data
+        } else {
+          this.info.main_image = []
+          this.$message.error('图片上传失败，请重新上传');
+        }
+
+      } catch(err) {
+        console.log('err')
         this.info.main_image = []
         this.$message.error('图片上传失败，请重新上传');
       }
@@ -267,7 +274,9 @@ export default {
      */
     initInfo() {
       let infoStr = window.sessionStorage.getItem('$editInfo')
-
+      if (!infoStr) {
+        return false
+      }
       let {
         base_info
       } = JSON.parse(infoStr)

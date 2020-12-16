@@ -118,6 +118,9 @@ export default {
   },
   methods: {
     update(key, val) {
+      if (key === 'description') {
+        console.log('description', val)
+      }
       this[key] = val
     },
     vertify() {
@@ -156,6 +159,8 @@ export default {
     submit() {
       let { baseInfo, specifications, description, info } = this
       let main_image =  baseInfo.main_image.length > 0 ? this.getImgSrc(baseInfo.main_image)[0].content : ''
+      // 判断上传商详页图片
+      
       specifications = specifications.reduce((prev, next) => {
         let { key, val } = next
         prev.push({[key]: val})
@@ -178,9 +183,19 @@ export default {
         description: this.getImgSrc(description) || [],
 
       }
-      this.loading = true
+      if (description.length <= 0) {
+        this.$message.error('请上传商品详情图片');
+        return false
+      }
+      // 检测图片是否上传完毕
+      let arr = [...params.description.map(item => item.content), main_image]
+      let isUpladed = arr.every(item => { return item && !item.includes('blob:') })
+      if (!isUpladed) {
+        this.$message.error('图片上传中，请稍后再试');
+        return false
+      }
+
       if (this.isEdit) { // 调用编辑接口
-        
         this.updateProductInfo(params)
         return false
       }
@@ -194,6 +209,7 @@ export default {
       // let infoStr = window.sessionStorage.getItem('$editInfo')
       // if (params.base_info.item_id !== '-00000') { return false }
       if (this.loading) return false
+      this.loading = true
       let { errorCode } = await updateProductSkuInfo(params)
       this.loading = false
       if (errorCode === 0) {
@@ -205,6 +221,7 @@ export default {
      */
     async createProductInfo(params) {
       if (this.loading) return false
+      this.loading = true
       let { errorCode } = await createProduct(params)
       this.loading = false
       if (errorCode === 0) {

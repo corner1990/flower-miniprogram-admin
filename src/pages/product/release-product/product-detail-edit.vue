@@ -73,7 +73,10 @@ export default {
       dialogVisible: false,
       disabled: false,
       fileList: [],
-      client: null
+      client: null,
+      upload: [],
+      isUploadind: false,
+      arr: [1,2,3,4]
     }
   },
   methods: {
@@ -86,7 +89,6 @@ export default {
     handleChange(file, fileList) {
       this.fileList = fileList;
       this.cutImg(file)
-   
       this.$emit('update', 'description', fileList)
     },
     handlePictureCardPreview(file) {
@@ -129,16 +131,36 @@ export default {
      * 上传图片
      * @param data
      */
-    async uploadImg(file) {
+    async uploadImg() {
+      let file = this.upload.shift()
       let uploadFile = file.image
-      let { errorCode, data } = await uploadBase64Image({file_base_64: uploadFile})
-      if (errorCode === 0) {
-        // file.url = data
-        file.requestUrls = data
-      } else {
-        this.fileList = this.fileList.filter(item => item !== file)
+      this.isUploadind = true
+      try {
+        let { errorCode, data } = await uploadBase64Image({file_base_64: uploadFile})
+        this.isUploadind = false
+        this.autoUpLoad()
+        if (errorCode === 0) {
+          // file.url = data
+          file.requestUrls = data
+          return false
+        } else {
+          this.$message.error('图片上传失败，请重新上传');
+          let fileList = this.fileList.filter(item => item !== file)
+          this.fileList = fileList
+          this.$emit('update', 'description', fileList)
+        }
+
+      } catch(err) {
+        console.log('err', err)
+        this.isUploadind = false
+        this.autoUpLoad()
         this.$message.error('图片上传失败，请重新上传');
+        let fileList = this.fileList.filter(item => item !== file)
+        this.fileList = fileList
+        this.$emit('update', 'description', fileList)
       }
+      
+      
       // 处理文件名
       // let imgName = md5(`${file.uid}-${file.name}`)
       // let imgKey = `ipxmall/${imgName}`
@@ -156,6 +178,12 @@ export default {
       //     }
       //     // 图片前缀
       //   })
+    },
+    autoUpLoad() {
+      if (this.isUploadind) return false
+      this.$nextTick(() => {
+        if (this.upload.length) this.uploadImg()
+      })
     },
     /**
      * @desc 剪贴图片
@@ -193,19 +221,24 @@ export default {
       //   this.uploadImg(file)
       // }, 'image/jpeg', '0.8')
       file.image = canvas.toDataURL('image/jpeg', 0.71)
-      this.uploadImg(file)
+      // 有图片上传时给一个15秒的延时
+      this.upload.push(file)
+      this.autoUpLoad()
     },
     /**
      * @desc 编辑时初始化数据
      */
     initInfo() {
       let infoStr = window.sessionStorage.getItem('$editInfo')
+      if (!infoStr) {
+        return false
+      }
       let { detail = {} } = JSON.parse(infoStr)
       
       this.fileList = detail.detail_list.map(item => {
         return {...item, url: item.content}
       })
-      this.$emit('update', 'productDetail', this.fileList)
+      this.$emit('update', 'description', this.fileList)
     }
   },
   computed: {
