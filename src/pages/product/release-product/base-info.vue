@@ -211,13 +211,13 @@ export default {
           file.requestUrls = data
         } else {
           this.info.main_image = []
-          this.$message.error('图片上传失败，请重新上传');
+          this.$message.error('图片上传失败，请重新上传2');
         }
 
       } catch(err) {
         console.log('err')
         this.info.main_image = []
-        this.$message.error('图片上传失败，请重新上传');
+        this.$message.error('图片上传失败，请重新上传1');
       }
       // this.client.put(imgKey, uploadFile)
       //   .then(response => {
