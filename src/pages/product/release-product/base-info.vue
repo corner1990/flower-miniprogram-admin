@@ -82,6 +82,9 @@
           <template slot="prepend">&yen;</template>
         </el-input>
       </el-form-item>
+      <el-form-item label="商品排序" prop="sort">
+        <el-input class="medium" v-model="info.sort"></el-input>
+      </el-form-item>
       <!-- <el-form-item label="快递运费" prop="shipping_price">
         <el-input class="medium" v-model="info.shipping_price">
           <template slot="prepend">&yen;</template>
@@ -120,12 +123,12 @@ export default {
         summary: '',
         shipping_price: 0,
         current_price: '',
-        original_price: ''
+        original_price: '',
+        sort: 0
       },
       dialogImageUrl: '',
       dialogVisible: false,
       disabled: false,
-  
       flowerList: [
         {
           name: '包月鲜花',
@@ -285,10 +288,12 @@ export default {
       let sale_price = base_info.sale_price / 100
       let original_price = base_info.original_price / 100
       let shipping_price = base_info.shipping_price / 100
+      let sort = base_info.sort ? parseInt(base_info.sort ) : 0
       this.info = {
         ...base_info,
         main_image,
         sale_price,
+        sort,
         original_price,
         shipping_price,
         current_price: sale_price
@@ -355,6 +360,9 @@ export default {
           { required: true, message: '请输入标准价格', trigger: 'blur' }
         ],
         stock: [
+          { required: true, message: '请输入库存', trigger: 'blur' }
+        ],
+        sort: [
           { required: true, message: '请输入库存', trigger: 'blur' }
         ],
         current_price: [

@@ -168,9 +168,10 @@ export default {
       }, [])
       let {
         current_price,
-        original_price
+        original_price,
+        sort
       } = baseInfo
-
+      sort = sort ? parseInt(sort) : 0
       original_price = (original_price - 0) * 100
       current_price = (current_price - 0) * 100
       let params = {
@@ -181,7 +182,7 @@ export default {
         main_image,
         specifications: JSON.stringify(specifications),
         description: this.getImgSrc(description) || [],
-
+        sort
       }
       if (description.length <= 0) {
         this.$message.error('请上传商品详情图片');

@@ -76,7 +76,6 @@ export default {
       client: null,
       upload: [],
       isUploadind: false,
-      arr: [1,2,3,4]
     }
   },
   methods: {
@@ -89,7 +88,6 @@ export default {
     handleChange(file, fileList) {
       this.fileList = fileList;
       this.cutImg(file)
-      this.$emit('update', 'description', fileList)
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -147,7 +145,6 @@ export default {
           this.$message.error('图片上传失败，请重新上传');
           let fileList = this.fileList.filter(item => item !== file)
           this.fileList = fileList
-          this.$emit('update', 'description', fileList)
         }
 
       } catch(err) {
@@ -157,7 +154,6 @@ export default {
         this.$message.error('图片上传失败，请重新上传');
         let fileList = this.fileList.filter(item => item !== file)
         this.fileList = fileList
-        this.$emit('update', 'description', fileList)
       }
       
       
@@ -238,7 +234,6 @@ export default {
       this.fileList = detail.detail_list.map(item => {
         return {...item, url: item.content}
       })
-      this.$emit('update', 'description', this.fileList)
     }
   },
   computed: {
@@ -254,6 +249,12 @@ export default {
       deep: true,
       handler() {
         this.initInfo()
+      }
+    },
+    fileList: {
+      deep: true,
+      handler(fileList) {
+        this.$emit('update', 'description', fileList)
       }
     }
   },
