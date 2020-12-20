@@ -363,7 +363,7 @@ export default {
           { required: true, message: '请输入库存', trigger: 'blur' }
         ],
         sort: [
-          { required: true, message: '请输入库存', trigger: 'blur' }
+          { required: true, message: '请输入排序', trigger: 'blur' }
         ],
         current_price: [
           { required: true, message: '请输入当前价格', trigger: 'blur' }
