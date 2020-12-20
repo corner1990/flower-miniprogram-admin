@@ -57,7 +57,7 @@ export default {
         },
         {
           label: '待发货',
-          key: '1'
+          key: '2'
         },
         // {
         //   label: '待收货',
@@ -65,11 +65,10 @@ export default {
         // },
         {
           label: '已发货',
-          key: '3'
+          key: '4'
         }
       ],
-      filterInfo: {
-      },
+      filterInfo: {},
       activeName: '0',
       allData: {}, // 保存所有数据
       list: [],

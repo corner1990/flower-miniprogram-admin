@@ -62,10 +62,13 @@
         <template slot-scope="scope">
           <div class="delivery">
             配送状态：
-            <el-tag type="success" v-show="scope.row.delivery_timestamp">已发货</el-tag>
-            <el-tag type="warning" v-show="!scope.row.delivery_timestamp">未发货</el-tag>
+            <el-tag
+              type="success"
+              v-if="scope.row.order_base_info.order_status >= 40"
+            >已发货</el-tag>
+            <el-tag type="warning" v-else>未发货</el-tag>
             <p class="info">期望配送时间：{{ scope.row.order_base_info.expected_time}}</p>
-            <p class="info">匿名配送： {{ scope.row.anonymous_status ? '是' : '否'}}</p>
+            <p class="info">匿名配送： {{ scope.row.order_base_info.anonymous_status ? '是' : '否'}}</p>
           </div>
         </template>
       </el-table-column>
@@ -77,7 +80,7 @@
             <p class="info">订 单 号：{{ scope.row.order_base_info.order_sn}}</p>
             <p class="info">支付价格：&yen;{{ scope.row.order_base_info.pay_price}}</p>
             <p class="info">下单时间： {{ scope.row.order_base_info.created_timestamp | formTime}}</p>
-            <p>订单类型： {{scope.row.product_type === 2 ? '礼品鲜花' : '包月鲜花'}}</p>
+            <p>订单类型： {{scope.row.order_base_info.product_type === 2 ? '礼品鲜花' : '包月鲜花'}}</p>
           </div>
         </template>
       </el-table-column>
