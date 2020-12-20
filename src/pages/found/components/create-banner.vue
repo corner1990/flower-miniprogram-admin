@@ -38,8 +38,8 @@
             :file-list="formInfo.image"
             :limit="1"
             :on-change="mainHandleChange"
-            list-type="picture-card"
-            :http-request="uploadImg">
+            :auto-upload="false"
+            list-type="picture-card">
               <i slot="default" class="el-icon-plus"></i>
               <div slot="file" slot-scope="{file}">
                 <img
@@ -84,12 +84,13 @@
 </template>
 
 <script>
-import {
-  getOssSign,
-} from '../../api'
-import md5 from '@/utils/md5'
-import OSS from 'ali-oss'
+// import {
+//   getOssSign,
+// } from '../../api'
+// import md5 from '@/utils/md5'
+// import OSS from 'ali-oss'
 import { createBanner, updateBanner } from '../api'
+import { uploadBase64Image } from '../../product/api'
 
 export default {
   name: 'create-banner',
@@ -157,6 +158,7 @@ export default {
      */
     mainHandleChange(file, fileList) {
       this.formInfo.image = fileList;
+      this.cutImg(file)
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -172,57 +174,76 @@ export default {
       this.formInfo.image = []
     },
     /**
-     * @desc 获取签名
-     */
-    async getSign() {
-      let { errorCode, data } = await getOssSign()
-      if (errorCode === 0) {
-        this.sign = data
-        let {
-          securityToken,
-          accessKeyId,
-          accessKeySecret,
-          bucket,
-          endpoint
-        } = data
-        // 创建实例
-        let client  = new OSS({
-          endpoint,
-          accessKeyId,
-          accessKeySecret,
-          bucket,
-          stsToken: securityToken
-        })
-        this.client  = client 
-      }
-      
-    },
-    /**
      * 上传图片
      * @param data
      */
-    async uploadImg(param) {
-      let { file } = param
+    async uploadImg(file) {
       // 处理文件名
-      let imgName = md5(`${file.uid}-${file.name}`)
-      let imgKey = `ipxmall/${imgName}`
-       var formData = new FormData();
-      formData.append("file", file);
-      
-      this.client.put(imgKey, file)
-        .then(response => {
-          // 上传完毕回调
-          let res = response.res
-          if (res.status === 200) {
-            
-            param.url = res.requestUrls
-            param.onSuccess(res) 
-            
-          } else {
-            param.onError(res)
-          }
-          // 图片前缀
-        })
+      // let imgName = md5(`${file.uid}-${file.name}`)
+      // let imgKey = `ipxmall/${imgName}`
+      let uploadFile = file.image
+      try {
+        let { errorCode, data } = await uploadBase64Image({file_base_64: uploadFile})
+        
+        if (errorCode === 0) {
+          file.requestUrls = data
+        } else {
+          this.formInfo.image = []
+          this.$message.error('图片上传失败，请重新上传2');
+        }
+
+      } catch(err) {
+        console.log('err', err)
+        this.formInfo.image = []
+        this.$message.error('图片上传失败，请重新上传1');
+      }
+      // this.client.put(imgKey, uploadFile)
+      //   .then(response => {
+      //     // 上传完毕回调
+      //     let res = response.res
+      //     if (res.status === 200) {
+      //       file.requestUrls = res.requestUrls
+      //       // param.onSuccess(res) 
+      //     } else {
+      //       // param.onError(res)
+      //     }
+      //     // 图片前缀
+      //   })
+    },
+    /**
+     * @desc 剪贴图片
+     */
+    cutImg(file) {
+      let el = document.createElement('img')
+      el.style.position = 'absolute'
+      el.style.left = '-300000px'
+
+      el.src= file.url
+      let maxWidth = 1920
+      // let maxWidth = 500
+      el.addEventListener('load', () => {
+        let { width, height } = el
+        
+        if (width > maxWidth) {
+          height = Math.round((maxWidth / width * height))
+          width = maxWidth
+        }
+        this.drawImg(el, width, height, file)
+      })
+    },
+    /**
+     * @desc canvas 渲染图片
+     */
+    drawImg(img, width, height, file) {
+      let canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      let ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0,width, height)
+
+      file.image = canvas.toDataURL('image/jpeg', 0.71)
+      // 上传图片
+      this.uploadImg(file)
     },
     /**
      * @desc 编辑时初始化数据
@@ -244,17 +265,24 @@ export default {
     vertiry() {
       this.$refs.bannerForm.validate(vaild => {
         if (!vaild) return false
-        if (this.formInfo.image.length === 0) {
-          return this.$message.error('请上传图片');
-        }
         let {
           content,
           image
         } = this.formInfo
+        if (image.length === 0) {
+          return this.$message.error('请上传图片');
+        }
+        
+        
         // if (sort === '') {
         //   sort = 10
         // }
         let img = this.getImgSrc(image)[0]
+        let isUpladed = [img?.content].every(item => { return item && !item.includes('blob:') })
+        if (!isUpladed) {
+          this.$message.error('图片上传中，请稍后再试');
+          return false
+        }
         let params = {
           content,
           image: img.content
@@ -277,8 +305,8 @@ export default {
           id,
           type: 'image',
         }
-        if (item.response) {
-          img.content = item.response.requestUrls[0]
+        if (item.requestUrls) {
+          img.content = item.requestUrls
         } else {
           img.content = item.url
         }
@@ -312,7 +340,7 @@ export default {
     }
   },
   mounted() {
-    this.getSign()
+    // this.getSign()
   }
 }
 </script>

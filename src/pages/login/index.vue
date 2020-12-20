@@ -96,7 +96,16 @@ export default {
      * @desc 
      */
     async vertify() {
-      let { errorCode, data } = await adminAccountLogin(this.param)
+      let {
+        account,
+        password
+      } = this.param
+      account = `${account}`.trim()
+      password = `${password}`.trim()
+      let { errorCode, data } = await adminAccountLogin({
+        account,
+        password
+      })
       if (errorCode === 0) {
         window.localStorage.setItem('$user_id', data.user_id)
         window.localStorage.setItem('$_token', JSON.stringify(data))
