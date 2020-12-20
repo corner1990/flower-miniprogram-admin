@@ -190,15 +190,15 @@ export default {
       el.style.left = '-300000px'
 
       el.src= file.url
-      let maxWidth = 1920
+      // let maxWidth = 1920
       // let maxWidth = 500
       el.addEventListener('load', () => {
         let { width, height } = el
         
-        if (width > maxWidth) {
-          height = Math.round((maxWidth / width * height))
-          width = maxWidth
-        }
+        // if (width > maxWidth) {
+        //   height = Math.round((maxWidth / width * height))
+        //   width = maxWidth
+        // }
         this.drawImg(el, width, height, file)
       })
     },
