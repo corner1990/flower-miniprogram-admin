@@ -52,7 +52,7 @@
         >
         <template slot-scope="scope">
           <div class="bless">
-            {{ scope.row.remark ? scope.row.remark : '暂无留言信息'}}
+            {{ scope.row.order_base_info.remark ? scope.row.order_base_info.remark : '暂无留言信息'}}
           </div>
         </template>
       </el-table-column>
