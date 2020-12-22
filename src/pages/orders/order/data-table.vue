@@ -63,10 +63,17 @@
           <div class="delivery">
             配送状态：
             <el-tag
+              :type="statusObj[scope.row.order_base_info.order_status].type"
+            >
+              {{statusObj[scope.row.order_base_info.order_status].label}}
+
+            </el-tag>
+            <!-- <el-tag
               type="success"
-              v-if="scope.row.order_base_info.order_status >= 40"
+              v-else-if="scope.row.order_base_info.order_status >= 40 && scope.row.order_base_info.order_status !== 60"
             >已发货</el-tag>
-            <el-tag type="warning" v-else>未发货</el-tag>
+            
+            <el-tag type="warning" v-else>未发货</el-tag> -->
             <p class="info">期望配送时间：{{ scope.row.order_base_info.expected_time}}</p>
             <p class="info">匿名配送： {{ scope.row.order_base_info.anonymous_status ? '是' : '否'}}</p>
           </div>
@@ -80,7 +87,7 @@
             <p class="info">订 单 号：{{ scope.row.order_base_info.order_sn}}</p>
             <p class="info">支付价格：&yen;{{ scope.row.order_base_info.pay_price}}</p>
             <p class="info">下单时间： {{ scope.row.order_base_info.created_timestamp | formTime}}</p>
-            <p>订单类型： {{scope.row.order_base_info.product_type === 2 ? '礼品鲜花' : '包月鲜花'}}</p>
+            <p>订单类型： {{scope.row.order_base_info.product_type === 1 ? '包月鲜花' : '礼品鲜花'}}</p>
           </div>
         </template>
       </el-table-column>
@@ -144,7 +151,41 @@ export default {
         pageTotal: 0,
         form: {},
         idx: -1,
-        id: -1
+        id: -1,
+        statusObj: {
+          '10': {
+            label: '待付款',
+            type: 'danger'
+          },
+          '20': {
+            label: '已支付',
+            type: 'success'
+          },
+          '30': {
+            label: '待发货',
+            type: 'warning'
+          },
+          '40': {
+            label: '待收货',
+            type: 'warning'
+          },
+          '50': {
+            label: '已完成',
+            type: 'success'
+          },
+          '60': {
+            label: '已取消',
+            type: 'info'
+          },
+          '70': {
+            label: '已完成',
+            type: 'success'
+          },
+          '80': {
+            label: '已完成',
+            type: 'success'
+          },
+        }
     };
     },
     created() {
